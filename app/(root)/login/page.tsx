@@ -15,8 +15,8 @@ function Login() {
       className={`min-h-screen flex items-center justify-center relative ${bgGradient}`}
     >
       <Card className="w-full max-w-md relative">
-        <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl font-bold text-center">
+        <CardHeader>
+          <CardTitle className="text-2xl font-bold text-center text-primary">
             Tizimga kirish
           </CardTitle>
           <CardDescription className="text-center">

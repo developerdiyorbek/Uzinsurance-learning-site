@@ -59,20 +59,24 @@ function LoginForm() {
         throw new Error(data?.error || "Invalid credentials!");
       }
 
-      const { user, accessToken, refreshToken } = data?.data;
+      const { user } = data?.data;
 
-      if (!accessToken || !refreshToken || !isValidUser(user)) {
+      console.log("user", user);
+
+      if (!isValidUser(user)) {
         throw new Error("Invalid credentials!");
       }
 
-      if (user.status === "inactive") {
-        throw new Error(
-          "Sizning akkauntingiz faol emas. Iltimos, administrator bilan bog‘laning."
-        );
-      }
+      localStorageService.setItem(
+        STORAGE_KEYS.ACCESS_TOKEN,
+        user?.access_token
+      );
 
-      localStorageService.setItem(STORAGE_KEYS.ACCESS_TOKEN, accessToken);
-      localStorageService.setItem(STORAGE_KEYS.REFRESH_TOKEN, refreshToken);
+      localStorageService.setItem(
+        STORAGE_KEYS.REFRESH_TOKEN,
+        user?.refresh_token
+      );
+
       dispatch(setUser(user));
       router.replace("/");
     } catch (error) {
@@ -88,7 +92,7 @@ function LoginForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <FormField
           control={form.control}
           name="phoneNumber"

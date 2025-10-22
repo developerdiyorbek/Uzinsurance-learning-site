@@ -27,14 +27,22 @@ export function removeUrlQuery({ params, key }: QueryProps) {
 export function isValidUser(user: IUser): boolean {
   if (
     !user ||
-    typeof user.phone_number !== "string" ||
-    user.phone_number.trim() === "" ||
     typeof user.first_name !== "string" ||
     user.first_name.trim() === "" ||
     typeof user.last_name !== "string" ||
     user.last_name.trim() === "" ||
+    typeof user.middle_name !== "string" ||
+    user.middle_name.trim() === "" ||
+    typeof user.phone_number !== "string" ||
+    user.phone_number.trim() === "" ||
     typeof user.role !== "string" ||
-    user.role.trim() === ""
+    user.role.trim() === "" ||
+    typeof user.status !== "string" ||
+    user.status.trim() === "" ||
+    typeof user.access_token !== "string" ||
+    user.access_token.trim() === "" ||
+    typeof user.refresh_token !== "string" ||
+    user.refresh_token.trim() === ""
   ) {
     return false;
   }

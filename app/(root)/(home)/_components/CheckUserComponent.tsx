@@ -36,7 +36,7 @@ function CheckUserComponent() {
           </div>
           <CardHeader className="space-y-1 flex flex-col items-center mt-2">
             <Logo />
-            <CardTitle className="text-xl font-bold text-center mt-2 dark:text-gray-100">
+            <CardTitle className="text-xl font-medium text-center mt-2 dark:text-gray-100">
               Xush kelibsiz, {user.first_name} {user.last_name}!
             </CardTitle>
             <CardDescription className="text-center text-base dark:text-gray-200">
@@ -47,7 +47,7 @@ function CheckUserComponent() {
           <CardContent className="flex flex-col sm:flex-row gap-4 mt-4">
             <Button
               className="w-full sm:w-1/2 dark:text-white cursor-pointer"
-              onClick={() => router.push("/dashboard")}
+              onClick={() => router.push("/user-dashboard")}
             >
               Dashboardga o&apos;tish
             </Button>

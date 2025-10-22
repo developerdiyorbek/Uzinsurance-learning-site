@@ -60,15 +60,19 @@ export function useRefreshToken() {
     }
 
     try {
-      const { accessToken, user } = await requestRefreshToken();
+      const { user } = await requestRefreshToken();
 
-      if (!accessToken || !isValidUser(user)) {
+      if (!isValidUser(user)) {
         throw new Error("Invalid credentials");
       }
 
       dispatch(setUser(user));
-      localStorageService.setItem(STORAGE_KEYS.ACCESS_TOKEN, accessToken);
-      return accessToken;
+      localStorageService.setItem(
+        STORAGE_KEYS.ACCESS_TOKEN,
+        user?.access_token
+      );
+
+      return user.access_token;
     } catch {
       logout();
     }
