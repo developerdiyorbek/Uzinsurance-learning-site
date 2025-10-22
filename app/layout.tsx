@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import { PropsWithChildren } from "react";
+import { ThemeProvider } from "@/components/providers/ThemeProvider";
+import MainProvider from "@/components/providers/MainProvider";
 import "./globals.css";
 
 const roboto = Roboto({
@@ -15,8 +17,17 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: PropsWithChildren) {
   return (
-    <html lang="en">
-      <body className={`${roboto.className} antialiased`}>{children}</body>
+    <html lang="en" suppressHydrationWarning>
+      <body className={`${roboto.className} antialiased`}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="light"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <MainProvider>{children}</MainProvider>
+        </ThemeProvider>
+      </body>
     </html>
   );
 }
