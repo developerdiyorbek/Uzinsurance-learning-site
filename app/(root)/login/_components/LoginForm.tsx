@@ -22,7 +22,7 @@ import { logInSchema } from "@/lib/validation";
 import localStorageService from "@/services/localStorage.service";
 import { setUser } from "@/lib/slices/auth.slice";
 import { Label } from "@/components/ui/label";
-import { Loader } from "lucide-react";
+import { Loader, Lock, Phone } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { logInAction } from "@/actions/user.action";
 import PhoneInput from "@/components/shared/PhoneInput";
@@ -98,7 +98,10 @@ function LoginForm() {
           name="phoneNumber"
           render={({ field }) => (
             <FormItem>
-              <Label className="text-sm font-medium">Telefon raqam</Label>
+              <Label className="text-sm font-medium flex items-center gap-1.5">
+                <Phone className="size-4 text-primary" />
+                Telefon raqam
+              </Label>
               <FormControl>
                 <PhoneInput value={field.value} onChange={field.onChange} />
               </FormControl>
@@ -112,7 +115,11 @@ function LoginForm() {
           name="password"
           render={({ field }) => (
             <FormItem>
-              <Label htmlFor="password" className="text-sm font-medium">
+              <Label
+                htmlFor="password"
+                className="text-sm font-medium flex items-center gap-1.5"
+              >
+                <Lock className="size-4 text-primary" />
                 Parol
               </Label>
               <FormControl>

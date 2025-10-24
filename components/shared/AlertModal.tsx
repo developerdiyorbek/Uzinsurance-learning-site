@@ -6,7 +6,7 @@ type TAlertModalProps = {
   isOpen: boolean;
   onClose: () => void;
   onConfirm: () => void;
-  loading: boolean;
+  loading?: boolean;
   title?: string;
   description?: string;
   btnCancel?: string;
