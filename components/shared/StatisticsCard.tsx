@@ -60,7 +60,7 @@ function StatisticsCard({
               value
             )}
           </h2>
-          <p className="mt-1 text-muted-foreground">{title}</p>
+          <p className="mt-1 text-muted-foreground dark:text-white">{title}</p>
         </CardContent>
       </div>
     </Card>

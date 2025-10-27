@@ -49,3 +49,46 @@ export function isValidUser(user: IUser): boolean {
 
   return true;
 }
+
+export function formatAndDivideNumber(num: number) {
+  if (num >= 1000000) {
+    const formattedNum = (num / 1000000).toFixed(1);
+    return `${formattedNum} M`;
+  } else if (num >= 1000) {
+    const formattedNum = (num / 1000).toFixed(1);
+    return `${formattedNum} K`;
+  } else {
+    return num.toString();
+  }
+}
+
+export function formatIntegerNumber(value: number) {
+  if (!Number.isInteger(value)) return value;
+
+  return value.toLocaleString().replace(/,/g, " ");
+}
+
+export function formatMoney(money: number): string {
+  if (money >= 1_000_000_000) {
+    return (money / 1_000_000_000).toFixed(1) + " milliard";
+  } else if (money >= 1_000_000) {
+    const millions = Math.floor(money / 1_000_000);
+    const remainder = money % 1_000_000;
+    const thousands = Math.floor(remainder / 1_000);
+    const last = remainder % 1_000;
+
+    let result = `${millions} mln`;
+    if (thousands > 0) result += ` ${thousands} ming`;
+    if (last > 0) result += ` ${last} so'm`;
+    return result;
+  } else if (money >= 1_000) {
+    const thousands = Math.floor(money / 1_000);
+    const last = money % 1_000;
+
+    let result = `${thousands} ming`;
+    if (last > 0) result += ` ${last} so'm`;
+    return result;
+  } else {
+    return `${money} so'm`;
+  }
+}
