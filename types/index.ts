@@ -12,6 +12,7 @@ export interface IUser {
   password: string;
   access_token: string;
   refresh_token: string;
+  avatar: string;
 }
 
 export interface LoginRequestBody {
@@ -23,4 +24,20 @@ export interface QueryProps {
   params: string;
   key: string;
   value?: string | null;
+}
+
+export interface SearchParamsProps {
+  searchParams: { [key: string]: string | undefined };
+}
+
+export interface ICourse {
+  _id: string;
+  title: string;
+  description: string;
+  image: string;
+  published: boolean;
+  teacher: IUser;
+  slug: string;
+  createdAt: string;
+  updatedAt: string;
 }
