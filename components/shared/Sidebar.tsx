@@ -1,11 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import {
-  adminNavLinks,
-  instructorNavLinks,
-  profileNavLinks,
-} from "@/constants";
+import { adminLinks, instructorNavLinks, profileNavLinks } from "@/constants";
 import { LogOut } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -19,7 +15,7 @@ function Sidebar({ page }: Props) {
 
   const getNavLinks = () => {
     if (page === "admin") {
-      return adminNavLinks;
+      return adminLinks;
     } else if (page === "instructor") {
       return instructorNavLinks;
     } else {
