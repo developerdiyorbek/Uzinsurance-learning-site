@@ -4,20 +4,20 @@ import CourseCard from "@/components/cards/CourseCard";
 import EmptyStateUI from "@/components/shared/EmptyStateUI";
 import { ICourse } from "@/types";
 import { useSearchParams } from "next/navigation";
-import CoursesFilter from "./CourseFilter";
 import CourseCardSkeleton from "@/components/cards/CourseCardSkeleton";
 import AdvancedErrorComponent from "@/components/shared/AdvancedErrorComponent";
 import { Button } from "@/components/ui/button";
 import { Loader, RotateCw } from "lucide-react";
-import { useGetAdminCourses } from "@/hooks/useGetAdminCourses";
+import { useGetTeacherCourses } from "@/hooks/useGetTeacherCourses";
+import CoursesFilter from "./CoursesFilter";
 
-function Courses() {
+function MyCourses() {
   const searchParams = useSearchParams();
   const page = Number(searchParams.get("page") || 1);
   const pageLimit = Number(searchParams.get("limit") || 6);
   const searchValue = searchParams.get("search") || "";
 
-  const { courses, isLoading, error, refetch } = useGetAdminCourses(
+  const { courses, isLoading, error, refetch } = useGetTeacherCourses(
     page,
     pageLimit,
     searchValue
@@ -60,12 +60,12 @@ function Courses() {
             <CourseCard
               key={course._id}
               course={course}
-              link={`/admin-dashboard/all-courses/${course.slug}`}
+              link={`/teacher-dashboard/my-courses/${course.slug}`}
             />
           ))}
       </div>
 
-      {!courses?.length && (
+      {!courses?.length && !error && (
         <EmptyStateUI
           hasSearch={!!searchValue}
           title="Hozircha kurslar yo'q"
@@ -78,4 +78,4 @@ function Courses() {
   );
 }
 
-export default Courses;
+export default MyCourses;

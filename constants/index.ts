@@ -16,24 +16,28 @@ export const STORAGE_KEYS = {
 };
 
 export const QUERY_KEYS = {
-  courses: "courses",
+  adminCourses: "adminCourses",
   users: "users",
   statistics: "statistics",
+  teacherStatistics: "teacherStatistics",
+  teacherCourses: "teacherCourses",
 };
 
 export const bgGradient =
   "bg-gradient-to-tr from-green-100 via-white to-green-200 dark:from-[#232526] dark:via-[#414345] dark:to-[#232526] min-h-[100vh] flex items-center justify-center";
 
 export const instructorNavLinks = [
-  { label: "Dashboard", route: "/instructor", icon: GaugeCircle },
-  { label: "My Courses", route: "/instructor/my-courses", icon: MonitorPlay },
+  { label: "Dashboard", route: "/teacher-dashboard", icon: GaugeCircle },
   {
-    label: "Create Course",
-    route: "/instructor/create-course",
+    label: "Kurslarim",
+    route: "/teacher-dashboard/my-courses",
+    icon: MonitorPlay,
+  },
+  {
+    label: "Kurs yaratish",
+    route: "/teacher-dashboard/create-course",
     icon: FileCode,
   },
-  { label: "Reviews", route: "/instructor/reviews", icon: MessageSquareMore },
-  { label: "Settings", route: "/instructor/settings", icon: Settings2 },
 ];
 
 export const profileNavLinks = [

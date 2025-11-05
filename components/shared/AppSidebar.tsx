@@ -11,12 +11,23 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { adminLinks } from "@/constants";
+import { adminLinks, instructorNavLinks, profileNavLinks } from "@/constants";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-function AppSidebar() {
+interface AppSidebarProps {
+  role: "admin" | "teacher" | "user";
+}
+
+function AppSidebar({ role }: AppSidebarProps) {
   const pathname = usePathname();
+
+  const links =
+    role === "admin"
+      ? adminLinks
+      : role === "teacher"
+      ? instructorNavLinks
+      : profileNavLinks;
 
   return (
     <Sidebar variant="floating" collapsible="icon">
@@ -26,7 +37,7 @@ function AppSidebar() {
           <SidebarGroupLabel>Sahifalar</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {adminLinks.map((link) => (
+              {links.map((link) => (
                 <SidebarMenuItem key={link.route}>
                   <SidebarMenuButton asChild isActive={pathname === link.route}>
                     <Link href={link.route}>

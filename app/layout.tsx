@@ -11,8 +11,8 @@ const roboto = Roboto({
 });
 
 export const metadata: Metadata = {
-  title: "Learning Website Agros",
-  description: "A learning platform for Agros",
+  title: "O'zagrosug'urta O'quv platformasi",
+  description: "O'zagrosug'urta O'quv platformasi",
 };
 
 export default function RootLayout({ children }: PropsWithChildren) {

@@ -2,15 +2,15 @@ import customAxios from "@/configs/customAxios";
 import { QUERY_KEYS } from "@/constants";
 import { useQuery } from "@tanstack/react-query";
 
-export function useGetCourses(
+export function useGetTeacherCourses(
   page: number,
   limit: number,
   searchValue: string
 ) {
   const { data, isLoading, error, refetch } = useQuery({
-    queryKey: [QUERY_KEYS.courses, page, limit, searchValue],
+    queryKey: [QUERY_KEYS.teacherCourses, page, limit, searchValue],
     queryFn: async () => {
-      const { data } = await customAxios.get("admin/courses", {
+      const { data } = await customAxios.get("teacher/courses", {
         params: {
           page,
           limit,
