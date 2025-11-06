@@ -46,7 +46,7 @@ function Courses() {
       {isLoading && (
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
           {[1, 2, 3].map((item) => (
-            <CourseCardSkeleton key={item} />
+            <CourseCardSkeleton key={item} show_creator />
           ))}
         </div>
       )}

@@ -53,7 +53,7 @@ function CourseCard({ course, link, show_creator }: Props) {
                 className="rounded-full object-cover"
               />
               <div className="min-w-0 flex-1">
-                <p className="text-sm font-medium text-foreground truncate">
+                <p className="text-sm text-foreground truncate">
                   {`${course.teacher.first_name} ${course.teacher.last_name}`}
                 </p>
               </div>

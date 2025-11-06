@@ -1,32 +1,36 @@
 "use client";
 
-import { Card, CardContent } from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
+import { Calendar } from "lucide-react";
 
-function CourseCardSkeleton() {
+interface Props {
+  show_creator?: boolean;
+}
+
+function CourseCardSkeleton({ show_creator }: Props) {
   return (
-    <Card className="w-full overflow-hidden">
-      <CardContent className="space-y-4 p-0">
-        <div className="relative h-48 w-full overflow-hidden">
-          <Skeleton className="h-full w-full" />
+    <div className="animate-pulse group overflow-hidden rounded-lg border bg-card">
+      <div className="relative h-52 w-full bg-muted">
+        <div className="absolute inset-0 bg-gray-300 dark:bg-gray-700" />
+      </div>
+
+      <div className="p-4 space-y-3">
+        <div className="h-5 w-3/4 bg-gray-300 dark:bg-gray-700 rounded" />
+
+        <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+          <Calendar className="w-3.5 h-3.5" />
+          <div className="h-3 w-20 bg-gray-300 dark:bg-gray-700 rounded" />
         </div>
 
-        <div className="space-y-3 px-3 pb-4">
-          <Skeleton className="h-5 w-3/4" />
-          <Skeleton className="h-5 w-1/2" />
-
-          <Skeleton className="h-[1px] w-full" />
-
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <Skeleton className="h-8 w-8 rounded-full" />
-              <Skeleton className="h-4 w-24" />
+        {show_creator && (
+          <div className="flex items-center gap-2 pt-2 border-t">
+            <div className="h-8 w-8 rounded-full bg-gray-300 dark:bg-gray-700" />
+            <div className="flex-1 space-y-2">
+              <div className="h-3 w-1/2 bg-gray-300 dark:bg-gray-700 rounded" />
             </div>
-            <Skeleton className="h-8 w-20 rounded-md" />
           </div>
-        </div>
-      </CardContent>
-    </Card>
+        )}
+      </div>
+    </div>
   );
 }
 
