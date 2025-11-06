@@ -30,3 +30,19 @@ export const addAndEditUserSchema = (isEdit: boolean) =>
     role: z.string(),
     status: z.string(),
   });
+
+export const courseSchema = z.object({
+  title: z.string().min(3, "Majburiy field!"),
+  description: z.string().min(1, "Majburiy field!"),
+  slug: z.string().min(3, "Majburiy field!"),
+  image: z
+    .instanceof(File)
+    .refine(
+      (file) => file.type.startsWith("image/"),
+      "Faqat rasm fayl bo‘lishi kerak!"
+    )
+    .refine(
+      (file) => file.size <= 5 * 1024 * 1024,
+      "Rasm hajmi 5MB dan oshmasin!"
+    ),
+});

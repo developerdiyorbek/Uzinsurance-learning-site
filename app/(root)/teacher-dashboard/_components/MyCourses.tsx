@@ -51,7 +51,7 @@ function MyCourses() {
         </div>
       )}
 
-      {error && <AdvancedErrorComponent />}
+      {!isLoading && error && <AdvancedErrorComponent />}
 
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
         {!isLoading &&
@@ -65,7 +65,7 @@ function MyCourses() {
           ))}
       </div>
 
-      {!courses?.length && !error && (
+      {!isLoading && !courses?.length && !error && (
         <EmptyStateUI
           hasSearch={!!searchValue}
           title="Hozircha kurslar yo'q"

@@ -51,7 +51,7 @@ function Courses() {
         </div>
       )}
 
-      {error && <AdvancedErrorComponent />}
+      {!isLoading && error && <AdvancedErrorComponent />}
 
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
         {!isLoading &&
@@ -61,11 +61,12 @@ function Courses() {
               key={course._id}
               course={course}
               link={`/admin-dashboard/all-courses/${course.slug}`}
+              show_creator
             />
           ))}
       </div>
 
-      {!courses?.length && (
+      {!isLoading && !courses?.length && !error && (
         <EmptyStateUI
           hasSearch={!!searchValue}
           title="Hozircha kurslar yo'q"
