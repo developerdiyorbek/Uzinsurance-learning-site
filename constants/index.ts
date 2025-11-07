@@ -74,6 +74,15 @@ export const adminLinks = [
   // },
 ];
 
+const ADMIN_ROLE = process.env.NEXT_PUBLIC_ADMIN_ROLE_UUID;
+const TEACHER_ROLE = process.env.NEXT_PUBLIC_TEACHER_ROLE_UUID;
+const USER_ROLE = process.env.NEXT_PUBLIC_USER_ROLE_UUID;
+
+export const IS_ADMIN = [ADMIN_ROLE];
+export const IS_TEACHER = [TEACHER_ROLE];
+export const IS_USER = [USER_ROLE];
+export const HAS_PERM_TO_TEACHER_DASHBOARD = [ADMIN_ROLE, TEACHER_ROLE];
+
 export const roles_name = {
   user: "Oddiy foydalanuvchi",
   admin: "Admin",

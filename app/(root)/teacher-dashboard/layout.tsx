@@ -11,7 +11,7 @@ async function Layout({ children }: PropsWithChildren) {
         <SidebarProvider>
           <AppSidebar role="teacher" />
           <main className="w-full lg:mr-2">
-            <AppNavbar />
+            <AppNavbar role="teacher" />
             <section className="mt-4 mx-auto mb-12 w-full px-4 sm:px-6 lg:px-8 xl:px-10 2xl:px-12">
               {children}
             </section>

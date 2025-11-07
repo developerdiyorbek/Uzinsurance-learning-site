@@ -5,13 +5,14 @@ import { useRouter } from "next/navigation";
 import { isValidUser } from "@/lib/utils";
 import useUser from "@/hooks/useUser";
 import FullScreenLoading from "@/components/shared/FullScreenLoading";
+import { IS_ADMIN } from "@/constants";
 
 function AdminDashboardProvider({ children }: PropsWithChildren) {
   const user = useUser();
   const router = useRouter();
 
   useEffect(() => {
-    if (!user || !isValidUser(user)) {
+    if (!user || !isValidUser(user) || !IS_ADMIN.includes(user?.role)) {
       router.replace("/");
     }
   }, [user, router]);

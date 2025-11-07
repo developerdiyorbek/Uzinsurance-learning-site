@@ -8,13 +8,26 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import { LogOut, User } from "lucide-react";
+import {
+  BookOpen,
+  CircleUser,
+  GraduationCap,
+  LogOut,
+  Shield,
+  User,
+} from "lucide-react";
 import { useLogout } from "@/services/auth.service";
 import { useState } from "react";
 import useUser from "@/hooks/useUser";
 import AlertModal from "./AlertModal";
+import Link from "next/link";
+import { HAS_PERM_TO_TEACHER_DASHBOARD, IS_ADMIN } from "@/constants";
 
-function UserBox() {
+interface Props {
+  profile_url: string;
+}
+
+function UserBox({ profile_url }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const user = useUser();
   const logOut = useLogout();
@@ -51,12 +64,39 @@ function UserBox() {
 
             <DropdownMenuSeparator />
 
-            {/* <Link href={`/profile`}>
-              <DropdownMenuItem className="w-full cursor-pointer gap-2 hover:bg-muted/70 rounded-md transition">
-                <CircleUser className="size-4" />
-                Profil
+            {IS_ADMIN.includes(user?.role) && (
+              <Link href="/admin-dashboard">
+                <DropdownMenuItem className="cursor-pointer gap-2 hover:bg-muted/70 rounded-md transition">
+                  <Shield className="size-4" />
+                  Admin
+                </DropdownMenuItem>
+              </Link>
+            )}
+
+            {HAS_PERM_TO_TEACHER_DASHBOARD.includes(user?.role) && (
+              <Link href="/teacher-dashboard">
+                <DropdownMenuItem className="cursor-pointer gap-2 hover:bg-muted/70 rounded-md transition">
+                  <BookOpen className="size-4" />
+                  O‘qituvchi
+                </DropdownMenuItem>
+              </Link>
+            )}
+
+            <Link href="/user-dashboard">
+              <DropdownMenuItem className="cursor-pointer gap-2 hover:bg-muted/70 rounded-md transition">
+                <GraduationCap className="size-4" />
+                O‘quvchi
               </DropdownMenuItem>
-            </Link> */}
+            </Link>
+
+            <DropdownMenuSeparator />
+
+            <Link href={`${profile_url}/my-profile`}>
+              <DropdownMenuItem className="cursor-pointer gap-2 hover:bg-muted/70 rounded-md transition">
+                <CircleUser className="size-4" />
+                Mening profilim
+              </DropdownMenuItem>
+            </Link>
 
             <DropdownMenuItem
               className="w-full cursor-pointer gap-2 rounded-md"

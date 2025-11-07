@@ -10,7 +10,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { bgGradient } from "@/constants";
+import { bgGradient, IS_ADMIN, IS_TEACHER } from "@/constants";
 import { useLogout } from "@/services/auth.service";
 import { IUser } from "@/types";
 import {
@@ -74,21 +74,26 @@ function UserInfo({ user }: Props) {
           </CardHeader>
 
           <CardContent className="flex flex-col gap-2 px-4 pb-4">
-            <Button
-              className="w-full h-11 text-sm font-medium bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 dark:text-white cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5 group"
-              onClick={() => router.push("/admin-dashboard")}
-            >
-              <Shield className="size-4 mr-1.5 group-hover:rotate-12 transition-transform duration-300" />
-              Admin profiliga o&apos;tish
-            </Button>
+            {IS_ADMIN.includes(user.role) && (
+              <Button
+                className="w-full h-11 text-sm font-medium bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 dark:text-white cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5 group"
+                onClick={() => router.push("/admin-dashboard")}
+              >
+                <Shield className="size-4 mr-1.5 group-hover:rotate-12 transition-transform duration-300" />
+                Admin profiliga o&apos;tish
+              </Button>
+            )}
 
-            <Button
-              className="w-full h-11 text-sm font-medium bg-gradient-to-r from-blue-500 to-cyan-600 hover:from-blue-600 hover:to-cyan-700 dark:text-white cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5 group"
-              onClick={() => router.push("/teacher-dashboard")}
-            >
-              <ShieldUser className="size-4 mr-1.5 group-hover:rotate-12 transition-transform duration-300" />
-              O&apos;qituvchi profiliga o&apos;tish
-            </Button>
+            {(IS_TEACHER.includes(user?.role) ||
+              IS_ADMIN.includes(user?.role)) && (
+              <Button
+                className="w-full h-11 text-sm font-medium bg-gradient-to-r from-blue-500 to-cyan-600 hover:from-blue-600 hover:to-cyan-700 dark:text-white cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5 group"
+                onClick={() => router.push("/teacher-dashboard")}
+              >
+                <ShieldUser className="size-4 mr-1.5 group-hover:rotate-12 transition-transform duration-300" />
+                O&apos;qituvchi profiliga o&apos;tish
+              </Button>
+            )}
 
             <Button
               className="w-full h-11 text-sm font-medium bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 dark:text-white cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5 group"

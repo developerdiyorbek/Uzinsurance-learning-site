@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Loader, RotateCw } from "lucide-react";
 import { useGetTeacherCourses } from "@/hooks/useGetTeacherCourses";
 import CoursesFilter from "./CoursesFilter";
+import Pagination from "@/components/shared/Pagination";
 
 function MyCourses() {
   const searchParams = useSearchParams();
@@ -17,11 +18,8 @@ function MyCourses() {
   const pageLimit = Number(searchParams.get("limit") || 6);
   const searchValue = searchParams.get("search") || "";
 
-  const { courses, isLoading, error, refetch } = useGetTeacherCourses(
-    page,
-    pageLimit,
-    searchValue
-  );
+  const { courses, isLoading, error, refetch, totalPages, currentPage } =
+    useGetTeacherCourses(page, pageLimit, searchValue);
 
   return (
     <>
@@ -73,6 +71,10 @@ function MyCourses() {
           searchTitle="Kurs topilmadi"
           searchDescription="Qidiruv bo'yicha hech qanday kurs topilmadi. Boshqa kalit so'z bilan qidiring."
         />
+      )}
+
+      {totalPages > 1 && (
+        <Pagination totalPages={totalPages} currentPage={currentPage} />
       )}
     </>
   );

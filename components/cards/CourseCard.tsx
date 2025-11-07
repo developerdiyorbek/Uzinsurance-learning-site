@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Calendar } from "lucide-react";
 import { format } from "date-fns";
 import CustomImage from "../shared/CustomImage";
+import { textSlice } from "@/lib/utils";
 
 interface Props {
   course: ICourse;
@@ -29,7 +30,7 @@ function CourseCard({ course, link, show_creator }: Props) {
           />
 
           <div className="text-sm absolute bottom-0 right-0 flex items-center gap-2 rounded-tl-lg bg-primary px-2 py-1 text-white font-medium">
-            {course.slug}
+            {textSlice(course.slug, 15)}
           </div>
         </div>
 

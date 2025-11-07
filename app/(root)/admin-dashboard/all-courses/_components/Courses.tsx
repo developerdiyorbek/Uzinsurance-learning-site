@@ -10,6 +10,7 @@ import AdvancedErrorComponent from "@/components/shared/AdvancedErrorComponent";
 import { Button } from "@/components/ui/button";
 import { Loader, RotateCw } from "lucide-react";
 import { useGetAdminCourses } from "@/hooks/useGetAdminCourses";
+import Pagination from "@/components/shared/Pagination";
 
 function Courses() {
   const searchParams = useSearchParams();
@@ -17,11 +18,8 @@ function Courses() {
   const pageLimit = Number(searchParams.get("limit") || 6);
   const searchValue = searchParams.get("search") || "";
 
-  const { courses, isLoading, error, refetch } = useGetAdminCourses(
-    page,
-    pageLimit,
-    searchValue
-  );
+  const { courses, isLoading, error, refetch, totalPages, currentPage } =
+    useGetAdminCourses(page, pageLimit, searchValue);
 
   return (
     <>
@@ -74,6 +72,10 @@ function Courses() {
           searchTitle="Kurs topilmadi"
           searchDescription="Qidiruv bo'yicha hech qanday kurs topilmadi. Boshqa kalit so'z bilan qidiring."
         />
+      )}
+
+      {totalPages > 1 && (
+        <Pagination totalPages={totalPages} currentPage={currentPage} />
       )}
     </>
   );
