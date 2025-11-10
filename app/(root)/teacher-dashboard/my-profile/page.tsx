@@ -1,5 +1,11 @@
+import Profile from "@/components/shared/Profile";
+
 function Page() {
-  return <div>Page</div>;
+  return (
+    <>
+      <Profile />
+    </>
+  );
 }
 
 export default Page;

@@ -122,6 +122,7 @@ export default function Profile() {
         password: "",
         confirmPassword: "",
       });
+
       if (fileInputRef.current) {
         fileInputRef.current.value = "";
       }

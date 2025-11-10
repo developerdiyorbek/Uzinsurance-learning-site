@@ -40,4 +40,15 @@ export interface ICourse {
   createdAt: string;
   updatedAt: string;
   status: "created" | "pending" | "published" | "rejected";
+  lessons?: ILesson[];
+}
+
+export interface ILesson {
+  _id: string;
+  title: string;
+  content: string;
+  order: number;
+  course: string;
+  createdAt: string;
+  updatedAt: string;
 }

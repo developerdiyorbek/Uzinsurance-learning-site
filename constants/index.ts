@@ -21,6 +21,7 @@ export const QUERY_KEYS = {
   statistics: "statistics",
   teacherStatistics: "teacherStatistics",
   teacherCourses: "teacherCourses",
+  coursesSlug: "coursesSlug",
 };
 
 export const bgGradient =
@@ -56,6 +57,11 @@ export const adminLinks = [
     label: "Kurslar",
     route: "/admin-dashboard/all-courses",
     icon: MonitorPlay,
+  },
+  {
+    label: "Kurs yaratish",
+    route: "/admin-dashboard/create-course",
+    icon: FileCode,
   },
   {
     label: "Foydalanuvchilar",
