@@ -30,11 +30,11 @@ interface Props {
 }
 
 function UserInfo({ user }: Props) {
+  const [isOpen, setIsOpen] = useState(false);
+
   const logout = useLogout();
   const router = useRouter();
   console.log("user", user);
-
-  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <section
