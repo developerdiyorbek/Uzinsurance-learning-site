@@ -35,9 +35,9 @@ export interface ICourse {
   title: string;
   description: string;
   image: string;
-  published: boolean;
   teacher: IUser;
   slug: string;
   createdAt: string;
   updatedAt: string;
+  status: "created" | "pending" | "published" | "rejected";
 }

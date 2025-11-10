@@ -21,6 +21,7 @@ import {
   Sparkles,
   User,
 } from "lucide-react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -51,8 +52,18 @@ function UserInfo({ user }: Props) {
           <div className="flex flex-col items-center -mt-10 sm:-mt-12 mb-1">
             <div className="relative">
               <div className="absolute inset-0 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full blur-xl opacity-60 animate-pulse" />
-              <div className="relative size-20 sm:size-24 rounded-full bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center text-white shadow-2xl border-3 border-white dark:border-slate-900 transition-transform hover:scale-105 duration-300">
-                <User className="size-10 sm:size-12" strokeWidth={2.5} />
+              <div className="relative size-20 sm:size-24 rounded-full bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center text-white shadow-2xl border-3 border-white dark:border-slate-900 transition-transform hover:scale-105 duration-300 overflow-hidden">
+                {user.avatar ? (
+                  <Image
+                    src={user.avatar}
+                    alt={`${user.first_name} ${user.last_name}`}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 640px) 80px, 96px"
+                  />
+                ) : (
+                  <User className="size-10 sm:size-12" strokeWidth={2.5} />
+                )}
               </div>
             </div>
           </div>

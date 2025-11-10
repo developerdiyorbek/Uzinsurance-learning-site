@@ -46,3 +46,18 @@ export const courseSchema = z.object({
       "Rasm hajmi 5MB dan oshmasin!"
     ),
 });
+
+export const userSchema = z
+  .object({
+    avatar: z.instanceof(File).optional().nullable(),
+    password: z
+      .string()
+      .min(6, "Parol kamida 6 ta belgidan iborat bo‘lishi kerak")
+      .optional()
+      .or(z.literal("")),
+    confirmPassword: z.string().optional().or(z.literal("")),
+  })
+  .refine((data) => !data.password || data.password === data.confirmPassword, {
+    message: "Parollar bir xil bo‘lishi kerak",
+    path: ["confirmPassword"],
+  });

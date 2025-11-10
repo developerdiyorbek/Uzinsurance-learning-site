@@ -7,15 +7,12 @@ import { Calendar } from "lucide-react";
 import { format } from "date-fns";
 import CustomImage from "../shared/CustomImage";
 import { textSlice } from "@/lib/utils";
+import { getStatusBadgeColor } from "@/constants";
 
 interface Props {
   course: ICourse;
   link: string;
   show_creator?: boolean;
-}
-
-function formatDate(dateString: string) {
-  return format(new Date(dateString), "MMM dd, yyyy");
 }
 
 function CourseCard({ course, link, show_creator }: Props) {
@@ -32,6 +29,14 @@ function CourseCard({ course, link, show_creator }: Props) {
           <div className="text-sm absolute bottom-0 right-0 flex items-center gap-2 rounded-tl-lg bg-primary px-2 py-1 text-white font-medium">
             {textSlice(course.slug, 15)}
           </div>
+
+          <div
+            className={`absolute top-2 left-2 px-3 py-1 rounded text-xs font-semibold ${getStatusBadgeColor(
+              course.status
+            )}`}
+          >
+            {course.status}
+          </div>
         </div>
 
         <div className="p-4 space-y-3">
@@ -41,7 +46,7 @@ function CourseCard({ course, link, show_creator }: Props) {
 
           <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
             <Calendar className="w-3.5 h-3.5" />
-            <span>{formatDate(course.createdAt)}</span>
+            <span>{format(new Date(course.createdAt), "MMM dd, yyyy")}</span>
           </div>
 
           {show_creator && course.teacher && (

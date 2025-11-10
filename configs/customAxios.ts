@@ -4,6 +4,7 @@ import localStorageService from "@/services/localStorage.service";
 import axios from "axios";
 
 export const BASE_URL = "https://edu.agros.uz/api";
+// export const BASE_URL = "http://localhost:6060/api";
 
 const customAxios = axios.create({
   baseURL: BASE_URL,
