@@ -44,11 +44,12 @@ export interface ICourse {
 }
 
 export interface ILesson {
-  _id: string;
   title: string;
   content: string;
   order: number;
-  course: string;
+  course: ICourse;
   createdAt: string;
   updatedAt: string;
+  slug: string;
+  _id: string;
 }

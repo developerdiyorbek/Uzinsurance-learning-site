@@ -7,9 +7,10 @@ import { useTheme } from "next-themes";
 interface TextEditorProps {
   value: string;
   onChange: (value: string) => void;
+  disabled?: boolean;
 }
 
-function TextEditor({ value, onChange }: TextEditorProps) {
+function TextEditor({ value, onChange, disabled = false }: TextEditorProps) {
   const { resolvedTheme } = useTheme();
 
   const handleUploadImage = (
@@ -54,6 +55,7 @@ function TextEditor({ value, onChange }: TextEditorProps) {
       onEditorChange={(newValue) => {
         onChange(newValue);
       }}
+      disabled={disabled}
       init={{
         height: 500,
         plugins: [

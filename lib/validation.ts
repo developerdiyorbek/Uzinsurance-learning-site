@@ -52,16 +52,13 @@ export const courseEditSchema = z.object({
   description: z.string().min(1, "Majburiy field!"),
   slug: z.string().min(3, "Majburiy field!"),
   status: z.enum(["created", "pending", "published", "rejected"], {
-    required_error: "Status majburiy!",
+    message: "Status majburiy!",
   }),
   image: z
-    .union([
-      z.instanceof(File),
-      z.null(),
-      z.undefined(),
-    ])
+    .union([z.instanceof(File), z.null(), z.undefined()])
     .refine(
-      (file) => !file || (file instanceof File && file.type.startsWith("image/")),
+      (file) =>
+        !file || (file instanceof File && file.type.startsWith("image/")),
       "Faqat rasm fayl bo'lishi kerak!"
     )
     .refine(
@@ -75,6 +72,7 @@ export const courseEditSchema = z.object({
 export const lessonSchema = z.object({
   title: z.string().min(3, "Dars nomi majburiy!"),
   content: z.string().min(1, "Dars mazmuni majburiy!"),
+  slug: z.string().min(3, "Slug majburiy!"),
   order: z.number().min(1, "Tartib raqami majburiy!"),
 });
 

@@ -1,7 +1,7 @@
 import AddandEditLessonForm from "../_components/AddandEditLessonForm";
 
 function Page() {
-  return <AddandEditLessonForm />;
+  return <AddandEditLessonForm isEdit={true} />;
 }
 
 export default Page;
