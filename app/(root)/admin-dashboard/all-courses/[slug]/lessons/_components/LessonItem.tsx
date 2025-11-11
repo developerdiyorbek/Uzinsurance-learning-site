@@ -2,23 +2,23 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { ILesson } from "@/types";
-import { Pencil, Trash2 } from "lucide-react";
+import { Pencil, Trash2, Calendar } from "lucide-react";
 import customAxios from "@/configs/customAxios";
-import { AxiosError } from "axios";
 import { toast } from "react-toastify";
 import AlertModal from "@/components/shared/AlertModal";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { QUERY_KEYS } from "@/constants";
 import Link from "next/link";
+import { format } from "date-fns";
 
 interface LessonItemProps {
   lesson: ILesson;
   course_slug: string;
+  index: number;
 }
 
-export function LessonItem({ lesson, course_slug }: LessonItemProps) {
+export function LessonItem({ lesson, course_slug, index }: LessonItemProps) {
   const queryClient = useQueryClient();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
@@ -32,46 +32,67 @@ export function LessonItem({ lesson, course_slug }: LessonItemProps) {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.lessonsByCourseSlug, course_slug],
       });
-      toast.success("Dars muvaffaqiyatli o&apos;chirildi");
+      toast.success("Dars muvaffaqiyatli o'chirildi");
       setIsDeleteModalOpen(false);
-    },
-    onError: (error) => {
-      const err = error as AxiosError<{ message?: string }>;
-      toast.error(err.response?.data?.message || "Darsni o'chirishda xatolik");
     },
   });
 
+  const lessonNumber = index + 1;
+
   return (
     <>
-      <Card className="hover:shadow-md transition-shadow">
-        <CardHeader className="flex items-start justify-between">
-          <div className="flex-1">
-            <div className="flex items-center gap-2 mb-1">
-              <span className="text-xs font-medium text-muted-foreground bg-muted px-2 py-1 rounded">
-                #{lesson.order}
-              </span>
-              <CardTitle className="text-base">{lesson.title}</CardTitle>
+      <div className="flex items-center gap-3 rounded-lg border bg-card p-4 group">
+        <div className="flex h-8 w-8 items-center justify-center rounded bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground text-sm font-medium transition-colors">
+          {lessonNumber}
+        </div>
+
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center justify-between gap-3">
+            <div className="flex-1 min-w-0">
+              <Link
+                href={`/admin-dashboard/all-courses/${course_slug}/lessons/${lesson.slug}`}
+                className="block"
+              >
+                <h3 className="text-sm font-medium text-foreground line-clamp-1 mb-1 group-hover:text-primary transition-colors">
+                  {lesson.title}
+                </h3>
+              </Link>
+              <div className="flex items-center gap-3 text-xs text-muted-foreground">
+                <div className="flex items-center gap-1">
+                  <Calendar className="size-3" />
+                  <span>
+                    {format(new Date(lesson.createdAt), "dd MMM, yyyy")}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-1 shrink-0">
+              <Link
+                href={`/admin-dashboard/all-courses/${course_slug}/lessons/${lesson.slug}`}
+              >
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-8 w-8"
+                  title="Tahrirlash"
+                >
+                  <Pencil className="size-4" />
+                </Button>
+              </Link>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-8 w-8 hover:bg-destructive/10 hover:text-destructive"
+                title="O'chirish"
+                onClick={() => setIsDeleteModalOpen(true)}
+              >
+                <Trash2 className="size-4 text-destructive" />
+              </Button>
             </div>
           </div>
-          <div className="flex items-center gap-2">
-            <Link
-              href={`/admin-dashboard/all-courses/${course_slug}/lessons/${lesson.slug}`}
-            >
-              <Button variant="ghost" size="sm">
-                <Pencil className="size-4" />
-              </Button>
-            </Link>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setIsDeleteModalOpen(true)}
-              className="text-destructive hover:text-destructive"
-            >
-              <Trash2 className="size-4" />
-            </Button>
-          </div>
-        </CardHeader>
-      </Card>
+        </div>
+      </div>
 
       <AlertModal
         isOpen={isDeleteModalOpen}
