@@ -34,7 +34,8 @@ import { toast } from "react-toastify";
 
 export default function LessonsManagement() {
   const { slug: course_slug } = useParams<{ slug: string }>();
-  const { lessons, isLoading, course } = useGetLessonsByCourseSlug(course_slug);
+  const { lessons, isLoading, course, lessonsCount } =
+    useGetLessonsByCourseSlug(course_slug);
   const queryClient = useQueryClient();
   const [items, setItems] = useState<ILesson[]>([]);
 
@@ -45,7 +46,8 @@ export default function LessonsManagement() {
     })
   );
 
-  const { mutate: updateOrder } = useMutation({
+  const { mutate: updateOrder, isPending: isUpdatingOrder } = useMutation({
+    mutationKey: [QUERY_KEYS.lessonsByCourseSlug, course_slug],
     mutationFn: async (updates: { slug: string; order: number }[]) => {
       await customAxios.put(`admin/lessons/reorder`, { updates });
     },
@@ -129,7 +131,7 @@ export default function LessonsManagement() {
           {!isLoading && lessons && (
             <Badge variant="secondary" className="text-xs font-medium">
               <BookOpen className="size-3 mr-1" />
-              {lessons.length} {lessons.length === 1 ? "dars" : "dars"}
+              {lessonsCount} dars
             </Badge>
           )}
           <Link
@@ -181,6 +183,7 @@ export default function LessonsManagement() {
                     lesson={lesson}
                     course_slug={course.slug}
                     index={index}
+                    isUpdatingOrder={isUpdatingOrder}
                   />
                 ))}
               </div>

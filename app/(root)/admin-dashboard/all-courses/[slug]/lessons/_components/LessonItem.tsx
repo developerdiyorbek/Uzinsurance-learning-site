@@ -19,9 +19,15 @@ interface LessonItemProps {
   lesson: ILesson;
   course_slug: string;
   index: number;
+  isUpdatingOrder?: boolean;
 }
 
-export function LessonItem({ lesson, course_slug, index }: LessonItemProps) {
+export function LessonItem({
+  lesson,
+  course_slug,
+  index,
+  isUpdatingOrder,
+}: LessonItemProps) {
   const queryClient = useQueryClient();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
@@ -71,6 +77,7 @@ export function LessonItem({ lesson, course_slug, index }: LessonItemProps) {
           title="Tartibni o'zgartirish"
           {...attributes}
           {...listeners}
+          disabled={isUpdatingOrder}
         >
           <GripVertical className="size-4 text-muted-foreground dark:text-muted-foreground/80" />
         </Button>

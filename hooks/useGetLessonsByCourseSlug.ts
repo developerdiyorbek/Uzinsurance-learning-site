@@ -15,6 +15,7 @@ export function useGetLessonsByCourseSlug(course_slug: string) {
   return {
     lessons: data?.lessons || [],
     course: data?.course,
+    lessonsCount: data?.lessons_count || 0,
     isLoading,
     error,
     refetch,
