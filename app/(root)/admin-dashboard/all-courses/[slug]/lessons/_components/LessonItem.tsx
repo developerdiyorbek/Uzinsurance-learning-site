@@ -62,19 +62,19 @@ export function LessonItem({ lesson, course_slug, index }: LessonItemProps) {
       <div
         ref={setNodeRef}
         style={style}
-        className="flex items-center gap-3 rounded-lg border bg-card p-4 group"
+        className="flex items-center gap-3 rounded-lg border bg-card p-4 group dark:border-border/50 dark:bg-card/50 dark:hover:bg-card/80 transition-colors"
       >
         <Button
           variant="ghost"
           size="icon"
-          className="h-8 w-8 cursor-grab active:cursor-grabbing hover:bg-muted shrink-0"
+          className="h-8 w-8 cursor-grab active:cursor-grabbing hover:bg-muted shrink-0 dark:hover:bg-muted/80"
           title="Tartibni o'zgartirish"
           {...attributes}
           {...listeners}
         >
-          <GripVertical className="size-4 text-muted-foreground" />
+          <GripVertical className="size-4 text-muted-foreground dark:text-muted-foreground/80" />
         </Button>
-        <div className="flex h-8 w-8 items-center justify-center rounded bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground text-sm font-medium transition-colors">
+        <div className="flex h-8 w-8 items-center justify-center rounded bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground text-sm font-medium transition-colors dark:bg-primary/20 dark:group-hover:bg-primary dark:group-hover:text-primary-foreground">
           {lessonNumber}
         </div>
 
@@ -85,13 +85,13 @@ export function LessonItem({ lesson, course_slug, index }: LessonItemProps) {
                 href={`/admin-dashboard/all-courses/${course_slug}/lessons/${lesson.slug}`}
                 className="block"
               >
-                <h3 className="text-sm font-medium text-foreground line-clamp-1 mb-1 group-hover:text-primary transition-colors">
+                <h3 className="text-sm font-medium text-foreground line-clamp-1 mb-1 group-hover:text-primary transition-colors dark:text-foreground dark:group-hover:text-primary">
                   {textSlice(lesson.title, 40)}
                 </h3>
               </Link>
-              <div className="flex items-center gap-3 text-xs text-muted-foreground">
+              <div className="flex items-center gap-3 text-xs text-muted-foreground dark:text-muted-foreground/70">
                 <div className="flex items-center gap-1">
-                  <Calendar className="size-3" />
+                  <Calendar className="size-3 dark:text-muted-foreground/60" />
                   <span>
                     {format(new Date(lesson.createdAt), "dd MMM, yyyy")}
                   </span>
@@ -106,20 +106,20 @@ export function LessonItem({ lesson, course_slug, index }: LessonItemProps) {
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="h-8 w-8"
+                  className="h-8 w-8 dark:hover:bg-muted/80"
                   title="Tahrirlash"
                 >
-                  <Pencil className="size-4" />
+                  <Pencil className="size-4 dark:text-foreground/80" />
                 </Button>
               </Link>
               <Button
                 variant="ghost"
                 size="icon"
-                className="h-8 w-8 hover:bg-destructive/10 hover:text-destructive"
+                className="h-8 w-8 hover:bg-destructive/10 hover:text-destructive dark:hover:bg-destructive/20 dark:hover:text-destructive"
                 title="O'chirish"
                 onClick={() => setIsDeleteModalOpen(true)}
               >
-                <Trash2 className="size-4 text-destructive" />
+                <Trash2 className="size-4 text-destructive dark:text-destructive/90" />
               </Button>
             </div>
           </div>
