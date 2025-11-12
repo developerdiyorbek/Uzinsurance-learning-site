@@ -22,7 +22,7 @@ import CourseActionsSkeleton from "./CourseActionsSkeleton";
 function CourseActions() {
   const params = useParams();
   const slug = params.slug as string;
-  const { course, isLoading, error, refetch } = useGetCourseBySlug(slug);
+  const { course, isLoading, error } = useGetCourseBySlug(slug);
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -31,7 +31,6 @@ function CourseActions() {
   const queryClient = useQueryClient();
 
   const handleSuccess = () => {
-    refetch();
     queryClient.invalidateQueries({
       queryKey: [QUERY_KEYS.coursesSlug, slug],
     });
@@ -46,7 +45,7 @@ function CourseActions() {
 
     try {
       setIsDeleting(true);
-      await customAxios.delete(`teacher/courses/${course.slug}`);
+      await customAxios.delete(`admin/courses/${course.slug}`);
       toast.success("Kurs muvaffaqiyatli o'chirildi");
       setIsDeleteModalOpen(false);
       queryClient.invalidateQueries({

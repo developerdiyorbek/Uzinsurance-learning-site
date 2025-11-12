@@ -17,7 +17,6 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { QUERY_KEYS } from "@/constants";
 import { useParams, useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
-import { NumericFormat } from "react-number-format";
 
 const TextEditor = dynamic(() => import("@/components/shared/TextEditor"), {
   ssr: false,
@@ -48,7 +47,6 @@ function AddandEditLessonForm({ isEdit = false }: Props) {
       title: "",
       content: "",
       slug: "",
-      order: 1,
     },
   });
 
@@ -60,7 +58,6 @@ function AddandEditLessonForm({ isEdit = false }: Props) {
         title: lesson.title || "",
         content: lesson.content || "",
         slug: lesson.slug || "",
-        order: lesson.order || 1,
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -73,7 +70,6 @@ function AddandEditLessonForm({ isEdit = false }: Props) {
         title: data.title,
         content: data.content,
         slug: data.slug,
-        order: data.order,
       };
 
       if (isEdit) {
@@ -159,7 +155,7 @@ function AddandEditLessonForm({ isEdit = false }: Props) {
           )}
         />
 
-        <FormField
+        {/* <FormField
           control={form.control}
           name="order"
           render={({ field }) => (
@@ -181,7 +177,7 @@ function AddandEditLessonForm({ isEdit = false }: Props) {
               </FormControl>
             </FormItem>
           )}
-        />
+        /> */}
 
         <div className="flex gap-3 justify-end pt-4">
           <Button

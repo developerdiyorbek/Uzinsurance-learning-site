@@ -18,7 +18,11 @@ import { Loader } from "lucide-react";
 
 type CourseFormValues = z.infer<typeof courseSchema>;
 
-export default function CreateCourseForm() {
+interface Props {
+  isAdmin?: boolean;
+}
+
+export default function CreateCourseForm({ isAdmin = false }: Props) {
   const [loading, setLoading] = useState(false);
 
   const form = useForm<CourseFormValues>({
@@ -42,7 +46,10 @@ export default function CreateCourseForm() {
       formData.append("slug", data.slug);
       formData.append("image", data.image);
 
-      await customAxios.post("teacher/courses", formData);
+      await customAxios.post(
+        isAdmin ? "admin/courses" : "teacher/courses",
+        formData
+      );
 
       toast.success("Kurs muvaffaqiyatli qo'shildi");
       form.reset();

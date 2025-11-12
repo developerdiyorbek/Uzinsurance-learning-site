@@ -80,7 +80,7 @@ export default function CourseEditForm({ course, onSuccess }: Props) {
         formData.append("image", data.image);
       }
 
-      await customAxios.put(`teacher/courses/${course?.slug}`, formData);
+      await customAxios.put(`admin/courses/${course?.slug}`, formData);
 
       toast.success("Kurs muvaffaqiyatli yangilandi");
       if (onSuccess) {

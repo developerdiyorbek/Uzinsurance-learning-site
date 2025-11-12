@@ -73,7 +73,6 @@ export const lessonSchema = z.object({
   title: z.string().min(3, "Dars nomi majburiy!"),
   content: z.string().min(1, "Dars mazmuni majburiy!"),
   slug: z.string().min(3, "Slug majburiy!"),
-  order: z.number().min(1, "Tartib raqami majburiy!"),
 });
 
 export const userSchema = z

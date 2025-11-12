@@ -9,7 +9,7 @@ function Page() {
         description="Kurs nomi, mazmuni va boshqa ma’lumotlarni kiriting — yangi o‘quv kursingizni yarating!"
         className="mb-4"
       />
-      <CreateCourseForm />
+      <CreateCourseForm isAdmin />
     </>
   );
 }
