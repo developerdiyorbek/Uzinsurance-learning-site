@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Plus, BookOpen } from "lucide-react";
 import EmptyStateUI from "@/components/shared/EmptyStateUI";
@@ -11,10 +12,102 @@ import { ILesson } from "@/types";
 import { useParams } from "next/navigation";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent,
+} from "@dnd-kit/core";
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { QUERY_KEYS } from "@/constants";
+import customAxios from "@/configs/customAxios";
+import { toast } from "react-toastify";
 
 export default function LessonsManagement() {
   const { slug: course_slug } = useParams<{ slug: string }>();
   const { lessons, isLoading, course } = useGetLessonsByCourseSlug(course_slug);
+  const queryClient = useQueryClient();
+  const [items, setItems] = useState<ILesson[]>([]);
+
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
+
+  const { mutate: updateOrder } = useMutation({
+    mutationFn: async (updates: { slug: string; order: number }[]) => {
+      await customAxios.put(`admin/lessons/reorder`, { updates });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.lessonsByCourseSlug, course_slug],
+      });
+      toast.success("Darslar tartibi muvaffaqiyatli yangilandi");
+    },
+  });
+
+  useEffect(() => {
+    if (lessons && lessons.length > 0) {
+      setItems([...lessons]);
+    }
+  }, [lessons]);
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+
+    if (over && active.id !== over.id) {
+      setItems((currentItems) => {
+        const oldIndex = currentItems.findIndex(
+          (item) => item._id === active.id
+        );
+        const newIndex = currentItems.findIndex((item) => item._id === over.id);
+
+        if (oldIndex === -1 || newIndex === -1) {
+          return currentItems;
+        }
+
+        const newItems = arrayMove(currentItems, oldIndex, newIndex);
+
+        const originalOrderMap = new Map(
+          currentItems.map((lesson) => [lesson.slug, lesson.order])
+        );
+
+        const updates = newItems
+          .map((lesson, index) => ({
+            slug: lesson.slug,
+            order: index + 1,
+          }))
+          .filter((update) => {
+            const originalOrder = originalOrderMap.get(update.slug);
+            return (
+              originalOrder !== undefined && originalOrder !== update.order
+            );
+          });
+
+        if (updates.length > 0) {
+          updateOrder(updates);
+        }
+
+        return newItems;
+      });
+    }
+  };
+
+  const displayLessons =
+    items.length > 0 && items.length === (lessons?.length || 0)
+      ? items
+      : lessons || [];
 
   return (
     <div className="space-y-4">
@@ -71,17 +164,28 @@ export default function LessonsManagement() {
           </Card>
         )}
 
-        {!isLoading && lessons && lessons.length > 0 && (
-          <div className="grid gap-3">
-            {lessons.map((lesson: ILesson, index: number) => (
-              <LessonItem
-                key={lesson._id}
-                lesson={lesson}
-                course_slug={course.slug}
-                index={index}
-              />
-            ))}
-          </div>
+        {!isLoading && displayLessons && displayLessons.length > 0 && (
+          <DndContext
+            sensors={sensors}
+            collisionDetection={closestCenter}
+            onDragEnd={handleDragEnd}
+          >
+            <SortableContext
+              items={displayLessons.map((lesson: ILesson) => lesson._id)}
+              strategy={verticalListSortingStrategy}
+            >
+              <div className="grid gap-3">
+                {displayLessons.map((lesson: ILesson, index: number) => (
+                  <LessonItem
+                    key={lesson._id}
+                    lesson={lesson}
+                    course_slug={course.slug}
+                    index={index}
+                  />
+                ))}
+              </div>
+            </SortableContext>
+          </DndContext>
         )}
       </div>
     </div>
