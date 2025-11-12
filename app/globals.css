@@ -133,3 +133,41 @@
 .animate-\[shimmer_3s_infinite\] {
   animation: shimmer 3s infinite;
 }
+
+/* Custom Scrollbar Styles */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: var(--primary);
+  border-radius: 4px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: #4a9a33;
+}
+
+.dark * {
+  scrollbar-color: var(--primary) transparent;
+}
+
+.dark *::-webkit-scrollbar-thumb {
+  background-color: var(--primary);
+}
+
+.dark *::-webkit-scrollbar-thumb:hover {
+  background-color: #5fbf45;
+}
