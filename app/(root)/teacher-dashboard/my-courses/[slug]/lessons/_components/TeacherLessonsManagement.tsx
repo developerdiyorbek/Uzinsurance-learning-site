@@ -49,8 +49,9 @@ export default function TeacherLessonsManagement() {
   const { mutate: updateOrder, isPending: isUpdatingOrder } = useMutation({
     mutationKey: [QUERY_KEYS.teacherLessonsByCourseSlug, course_slug],
     mutationFn: async (updates: { slug: string; order: number }[]) => {
-      await customAxios.put(`teacher/lessons/${course_slug}/reorder`, {
+      await customAxios.put(`teacher/lessons/reorder`, {
         updates,
+        course_slug,
       });
     },
     onSuccess: () => {
