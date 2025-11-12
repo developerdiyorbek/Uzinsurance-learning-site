@@ -12,7 +12,7 @@ async function Layout({ children }: PropsWithChildren) {
           <AppSidebar role="admin" />
           <main className="w-full lg:mr-2">
             <AppNavbar role="admin" />
-            <section className="mt-4 mx-auto mb-12 w-full px-4 sm:px-6 lg:px-8 xl:px-10 2xl:px-12">
+            <section className="mt-4 mx-auto mb-12 w-full px-4 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 min-w-0">
               {children}
             </section>
           </main>
