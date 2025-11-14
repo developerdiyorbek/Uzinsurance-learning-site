@@ -1,7 +1,6 @@
 "use client";
 
 import EmptyStateUI from "@/components/shared/EmptyStateUI";
-import { Bell } from "lucide-react";
 
 function Page() {
   return (
@@ -18,4 +17,3 @@ function Page() {
 }
 
 export default Page;
-
