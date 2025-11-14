@@ -136,7 +136,7 @@ export default function Profile() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20 py-8 px-4 sm:px-6">
+    <div className="min-h-screen py-8 px-4 sm:px-6">
       <div className="max-w-3xl mx-auto">
         <div className="mb-6 text-center">
           <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent mb-2">

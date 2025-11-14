@@ -6,8 +6,6 @@ import { ICourse } from "@/types";
 import { useSearchParams } from "next/navigation";
 import CourseCardSkeleton from "@/components/cards/CourseCardSkeleton";
 import AdvancedErrorComponent from "@/components/shared/AdvancedErrorComponent";
-import { Button } from "@/components/ui/button";
-import { Loader, RotateCw } from "lucide-react";
 import { useGetTeacherCourses } from "@/hooks/useGetTeacherCourses";
 import CoursesFilter from "./CoursesFilter";
 import Pagination from "@/components/shared/Pagination";
@@ -17,29 +15,14 @@ function MyCourses() {
   const page = Number(searchParams.get("page") || 1);
   const pageLimit = Number(searchParams.get("limit") || 6);
   const searchValue = searchParams.get("search") || "";
+  const status = searchParams.get("status") || "";
 
   const { courses, isLoading, error, refetch, totalPages, currentPage } =
-    useGetTeacherCourses(page, pageLimit, searchValue);
+    useGetTeacherCourses(page, pageLimit, searchValue, status);
 
   return (
     <>
-      <div className="flex items-center justify-between">
-        <CoursesFilter />
-
-        <Button
-          variant="outline"
-          onClick={() => refetch()}
-          disabled={isLoading}
-          className="flex items-center gap-2"
-        >
-          {isLoading ? (
-            <Loader className="size-4 animate-spin" />
-          ) : (
-            <RotateCw className="size-4" />
-          )}
-          Yangilash
-        </Button>
-      </div>
+      <CoursesFilter refetch={refetch} isLoading={isLoading} />
 
       {isLoading && (
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
@@ -65,7 +48,7 @@ function MyCourses() {
 
       {!isLoading && !courses?.length && !error && (
         <EmptyStateUI
-          hasSearch={!!searchValue}
+          hasSearch={!!searchValue || !!status}
           title="Hozircha kurslar yo'q"
           description="Platformangizda hali birorta ham kurs mavjud emas. Birinchi kursni yaratishni boshlang."
           searchTitle="Kurs topilmadi"

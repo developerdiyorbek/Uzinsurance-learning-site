@@ -1,14 +1,20 @@
 import {
+  Award,
   Bell,
-  CreditCard,
+  BookOpen,
   FileCode,
   GaugeCircle,
-  ListVideo,
-  MessageSquareMore,
   MonitorPlay,
-  Settings2,
+  User,
   Users,
 } from "lucide-react";
+
+export const courseStatuses = [
+  { value: "created", label: "Yaratilgan" },
+  { value: "pending", label: "Kutilmoqda" },
+  { value: "published", label: "Nashr qilingan" },
+  { value: "rejected", label: "Rad etilgan" },
+];
 
 export const STORAGE_KEYS = {
   ACCESS_TOKEN: "AUTH_ACCESS_TOKEN",
@@ -26,6 +32,9 @@ export const QUERY_KEYS = {
   lessonBySlug: "lessonBySlug",
   teacherLessonsByCourseSlug: "teacherLessonsByCourseSlug",
   teacherLessonBySlug: "teacherLessonBySlug",
+  userCourses: "userCourses",
+  userJoinedCourses: "userJoinedCourses",
+  userCourseBySlug: "userCourseBySlug",
 };
 
 export const bgGradient =
@@ -46,13 +55,31 @@ export const instructorNavLinks = [
 ];
 
 export const profileNavLinks = [
-  { label: "dashboard", route: "/profile", icon: GaugeCircle },
-  { label: "myCourses", route: "/profile/my-courses", icon: MonitorPlay },
-  { label: "wishlist", route: "/profile/wishlist", icon: ListVideo },
-  { label: "creditCards", route: "/profile/credit-cards", icon: CreditCard },
-  { label: "reviews", route: "/profile/reviews", icon: MessageSquareMore },
-  { label: "notification", route: "/profile/notifications", icon: Bell },
-  { label: "settings", route: "/profile/settings", icon: Settings2 },
+  {
+    label: "Dashboard",
+    route: "/user-dashboard",
+    icon: GaugeCircle,
+  },
+  {
+    label: "Kurslar",
+    route: "/user-dashboard/courses",
+    icon: BookOpen,
+  },
+  {
+    label: "Yutuqlarim",
+    route: "/user-dashboard/achievements",
+    icon: Award,
+  },
+  {
+    label: "Profilim",
+    route: "/user-dashboard/my-profile",
+    icon: User,
+  },
+  {
+    label: "Xabarnomalar",
+    route: "/user-dashboard/notifications",
+    icon: Bell,
+  },
 ];
 
 export const adminLinks = [
