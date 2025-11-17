@@ -2,7 +2,7 @@
 
 import { useGetUserLessonsByCourseSlug } from "@/hooks/useGetUserLessonsByCourseSlug";
 import { ILesson } from "@/types";
-import { CheckCircle2, BookOpen, Video, Pause } from "lucide-react";
+import { CheckCircle2, BookOpen, Video, Pause, Lock } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -56,6 +56,71 @@ export default function LearnSidebar({
           const isCompleted = lesson.is_completed;
           const isCurrent = lesson.slug === currentLessonSlug;
 
+          const isLocked = index > 0 && !lessons[index - 1]?.is_completed;
+
+          const lessonContent = (
+            <div
+              className={cn(
+                "group relative flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200",
+                isLocked
+                  ? "cursor-not-allowed opacity-60"
+                  : "cursor-pointer hover:bg-green-50/50 dark:hover:bg-green-950/20",
+                isCurrent && !isLocked && "bg-green-50 dark:bg-green-950/30"
+              )}
+            >
+              <div className="flex-shrink-0">
+                {isLocked ? (
+                  <div className="size-6 rounded-full bg-gray-400 dark:bg-gray-700 flex items-center justify-center">
+                    <Lock className="size-3.5 text-white" strokeWidth={2.5} />
+                  </div>
+                ) : isCompleted ? (
+                  <div className="size-6 rounded-full bg-green-600 dark:bg-green-500 flex items-center justify-center">
+                    <CheckCircle2
+                      className="size-3.5 text-white"
+                      strokeWidth={2.5}
+                    />
+                  </div>
+                ) : isCurrent ? (
+                  <div className="size-6 rounded-full bg-green-600 dark:bg-green-500 flex items-center justify-center">
+                    <Pause className="size-3 text-white" fill="currentColor" />
+                  </div>
+                ) : (
+                  <div className="size-6 rounded-full bg-gray-700 dark:bg-gray-600 flex items-center justify-center group-hover:bg-green-600 dark:group-hover:bg-green-500 transition-colors">
+                    <Video
+                      className="size-3.5 text-white"
+                      fill="currentColor"
+                    />
+                  </div>
+                )}
+              </div>
+
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-medium text-foreground leading-tight">
+                  #{index + 1}. {textSlice(lesson.title, 40)}
+                </p>
+              </div>
+
+              {isCurrent && !isLocked && (
+                <div className="absolute right-0 top-0 bottom-0 w-1 bg-green-600 dark:bg-green-500 rounded-l-full" />
+              )}
+            </div>
+          );
+
+          if (isLocked) {
+            return (
+              <div
+                key={lesson._id}
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                }}
+                title="Oldingi darsni tugatishingiz kerak"
+              >
+                {lessonContent}
+              </div>
+            );
+          }
+
           return (
             <Link
               key={lesson._id}
@@ -67,48 +132,7 @@ export default function LearnSidebar({
                 }
               }}
             >
-              <div
-                className={cn(
-                  "group relative flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 cursor-pointer",
-                  "hover:bg-green-50/50 dark:hover:bg-green-950/20",
-                  isCurrent && "bg-green-50 dark:bg-green-950/30"
-                )}
-              >
-                <div className="flex-shrink-0">
-                  {isCompleted ? (
-                    <div className="size-6 rounded-full bg-green-600 dark:bg-green-500 flex items-center justify-center">
-                      <CheckCircle2
-                        className="size-3.5 text-white"
-                        strokeWidth={2.5}
-                      />
-                    </div>
-                  ) : isCurrent ? (
-                    <div className="size-6 rounded-full bg-green-600 dark:bg-green-500 flex items-center justify-center">
-                      <Pause
-                        className="size-3 text-white"
-                        fill="currentColor"
-                      />
-                    </div>
-                  ) : (
-                    <div className="size-6 rounded-full bg-gray-700 dark:bg-gray-600 flex items-center justify-center group-hover:bg-green-600 dark:group-hover:bg-green-500 transition-colors">
-                      <Video
-                        className="size-3.5 text-white"
-                        fill="currentColor"
-                      />
-                    </div>
-                  )}
-                </div>
-
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-foreground leading-tight">
-                    #{index + 1}. {textSlice(lesson.title, 40)}
-                  </p>
-                </div>
-
-                {isCurrent && (
-                  <div className="absolute right-0 top-0 bottom-0 w-1 bg-green-600 dark:bg-green-500 rounded-l-full" />
-                )}
-              </div>
+              {lessonContent}
             </Link>
           );
         })}
