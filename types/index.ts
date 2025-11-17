@@ -41,8 +41,9 @@ export interface ICourse {
   updatedAt: string;
   status: "created" | "pending" | "published" | "rejected";
   lessons?: ILesson[];
-  completedLessons?: number;
-  totalLessons?: number;
+  completed_lessons: number;
+  total_lessons: number;
+  progress_percentage: number;
 }
 
 export interface ILesson {
@@ -54,4 +55,5 @@ export interface ILesson {
   updatedAt: string;
   slug: string;
   _id: string;
+  is_completed: boolean;
 }

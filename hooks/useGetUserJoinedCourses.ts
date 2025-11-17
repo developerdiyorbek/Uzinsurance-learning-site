@@ -13,7 +13,7 @@ export function useGetUserJoinedCourses() {
 
   return {
     courses: data?.courses || [],
-    total: data?.total || 0,
+    total: data?.total_courses || 0,
     isLoading,
     error,
     refetch,

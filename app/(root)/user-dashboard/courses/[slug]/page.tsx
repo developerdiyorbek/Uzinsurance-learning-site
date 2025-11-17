@@ -42,7 +42,8 @@ export default function Page() {
       await customAxios.post(`user/courses/${slug}/join`);
       toast.success("Kursga muvaffaqiyatli qo'shildingiz!");
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.userCourses] });
-      router.push(`/courses/${course?.slug}`);
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.userJoinedCourses] });
+      router.push(`/learn-courses/${course?.slug}`);
     } catch (error) {
       const err = error as AxiosError<{ message?: string }>;
       const errorMessage =

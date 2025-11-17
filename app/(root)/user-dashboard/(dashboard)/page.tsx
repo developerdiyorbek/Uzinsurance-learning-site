@@ -54,7 +54,7 @@ function Page() {
             <UserCourseCard
               key={course._id}
               course={course}
-              href={`/courses/${course.slug}`}
+              href={`/learn-courses/${course.slug}`}
             />
           ))}
       </div>

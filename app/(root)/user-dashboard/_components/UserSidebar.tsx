@@ -36,7 +36,7 @@ function UserSidebar() {
     <>
       <button
         onClick={() => setIsMobileOpen(!isMobileOpen)}
-        className="lg:hidden fixed top-20 right-4 z-50 p-2.5 rounded-lg bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 shadow-lg"
+        className="lg:hidden fixed top-20 right-4 z-50 p-2.5 rounded-lg bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 shadow-lg cursor-pointer"
         aria-label="Toggle menu"
       >
         {isMobileOpen ? <X className="size-5" /> : <Menu className="size-5" />}
@@ -44,7 +44,7 @@ function UserSidebar() {
 
       {isMobileOpen && (
         <div
-          className="lg:hidden fixed inset-0 bg-black/40 z-40"
+          className="lg:hidden fixed inset-0 bg-black/40 z-40 cursor-pointer"
           onClick={() => setIsMobileOpen(false)}
         />
       )}

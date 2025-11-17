@@ -70,9 +70,14 @@ function AddandEditLessonForm({ isEdit = false }: Props) {
         title: data.title,
         content: data.content,
         slug: data.slug,
+        new_slug: "",
       };
 
       if (isEdit) {
+        if (data.slug !== lesson?.slug) {
+          values.new_slug = data.slug;
+        }
+
         const response = await customAxios.put(
           `admin/lessons/${lesson_slug}`,
           values
