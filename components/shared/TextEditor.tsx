@@ -23,7 +23,6 @@ function TextEditor({ value, onChange, disabled = false }: TextEditorProps) {
         const formData = new FormData();
         formData.append("file", blobInfo.blob(), blobInfo.filename());
         formData.append("title", `${Date.now()}-${blobInfo.filename()}`);
-        formData.append("isPublished", JSON.stringify(true));
 
         const { data } = await customAxios.post("admin/file-upload", formData, {
           headers: {
