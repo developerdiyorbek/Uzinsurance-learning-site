@@ -56,4 +56,5 @@ export interface ILesson {
   slug: string;
   _id: string;
   is_completed: boolean;
+  video_url?: string | null;
 }

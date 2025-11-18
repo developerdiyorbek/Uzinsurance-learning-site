@@ -7,14 +7,7 @@ import { useGetUserLessonBySlug } from "@/hooks/useGetUserLessonBySlug";
 import { useCompleteLesson } from "@/hooks/useCompleteLesson";
 import { useTimer } from "@/hooks/useTimer";
 import { Button } from "@/components/ui/button";
-import {
-  CheckCircle2,
-  ArrowRight,
-  ArrowLeft,
-  Loader,
-  Trophy,
-  Clock,
-} from "lucide-react";
+import { CheckCircle2, ArrowLeft, Loader, Trophy, Clock } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import parse from "html-react-parser";
@@ -96,16 +89,78 @@ export default function LearnLessonPage() {
     }
   };
 
-  const handleNextLesson = () => {
-    if (currentNextLesson) {
-      router.push(`/learn-courses/${course_slug}/${currentNextLesson}`);
-    }
-  };
+  // const handleNextLesson = () => {
+  //   if (currentNextLesson) {
+  //     router.push(`/learn-courses/${course_slug}/${currentNextLesson}`);
+  //   }
+  // };
 
   const handlePreviousLesson = () => {
     if (previousLessonSlug) {
       router.push(`/learn-courses/${course_slug}/${previousLessonSlug}`);
     }
+  };
+
+  // YouTube URL ni embed URL ga o'girish
+  const getYouTubeEmbedUrl = (url: string): string | null => {
+    // YouTube watch URL: https://www.youtube.com/watch?v=VIDEO_ID
+    const watchMatch = url.match(
+      /(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\n?#]+)/
+    );
+    if (watchMatch) {
+      return `https://www.youtube.com/embed/${watchMatch[1]}`;
+    }
+    // Agar allaqachon embed URL bo'lsa
+    if (url.includes("youtube.com/embed/")) {
+      return url;
+    }
+    return null;
+  };
+
+  // Video URL yoki embed code ni render qilish
+  const renderVideo = () => {
+    if (!lesson?.video_url) return null;
+
+    const videoUrl = lesson.video_url.trim();
+
+    // Agar iframe tag bo'lsa, to'g'ridan-to'g'ri parse qilish
+    if (videoUrl.includes("<iframe")) {
+      return (
+        <div className="w-full aspect-video rounded-lg overflow-hidden border bg-muted">
+          {parse(videoUrl)}
+        </div>
+      );
+    }
+
+    // YouTube URL ni tekshirish va embed qilish
+    const embedUrl = getYouTubeEmbedUrl(videoUrl);
+    if (embedUrl) {
+      return (
+        <div className="w-full aspect-video rounded-lg overflow-hidden border bg-muted">
+          <iframe
+            src={embedUrl}
+            title={lesson.title}
+            className="w-full h-full"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          />
+        </div>
+      );
+    }
+
+    // Agar boshqa URL bo'lsa, video tag sifatida ko'rsatish
+    return (
+      <div className="w-full aspect-video rounded-lg overflow-hidden border bg-muted">
+        <video
+          src={videoUrl}
+          controls
+          className="w-full h-full"
+          title={lesson.title}
+        >
+          Sizning brauzeringiz video elementini qo&apos;llab-quvvatlamaydi.
+        </video>
+      </div>
+    );
   };
 
   if (lessonsLoading || lessonLoading) {
@@ -166,7 +221,48 @@ export default function LearnLessonPage() {
               </Badge>
             )}
           </div>
+        </div>
 
+        <h1 className="text-2xl md:text-3xl font-bold leading-tight text-foreground">
+          {lesson.title}
+        </h1>
+      </div>
+
+      {lesson.video_url && <div className="w-full">{renderVideo()}</div>}
+
+      <div className="prose prose-sm md:prose-base max-w-none dark:prose-invert prose-headings:font-bold prose-headings:text-foreground prose-p:leading-relaxed prose-p:text-foreground/90 prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-img:rounded-lg prose-img:shadow-md prose-img:my-4 prose-ul:my-2 prose-ol:my-2 prose-li:my-1 prose-strong:text-foreground prose-code:text-primary prose-pre:bg-muted prose-pre:border prose-pre:text-sm prose-blockquote:border-l-2 prose-blockquote:border-primary prose-blockquote:pl-3 prose-blockquote:italic prose-blockquote:text-sm">
+        {parse(lesson?.content || "")}
+      </div>
+
+      <div className="flex items-center justify-between gap-3 pt-4 border-t">
+        <Button
+          variant="outline"
+          onClick={handlePreviousLesson}
+          disabled={!previousLessonSlug}
+          size="sm"
+          className="flex items-center gap-1.5"
+        >
+          <ArrowLeft className="size-4" />
+          <span>Oldingi dars</span>
+        </Button>
+
+        {/* {currentNextLesson && (
+          <Button
+            onClick={handleNextLesson}
+            size="sm"
+            className="flex items-center gap-1.5"
+          >
+            <span>Keyingi dars</span>
+            <ArrowRight className="size-4" />
+          </Button>
+        )} */}
+        {!currentNextLesson && progressPercentage === 100 && (
+          <div className="flex items-center gap-1.5 text-green-600 dark:text-green-400 text-sm">
+            <Trophy className="size-4" />
+            <span className="font-semibold">Barcha darslar tugatildi!</span>
+          </div>
+        )}
+        {currentNextLesson && (
           <Button
             onClick={handleCompleteLesson}
             disabled={
@@ -206,44 +302,6 @@ export default function LearnLessonPage() {
               </>
             )}
           </Button>
-        </div>
-
-        <h1 className="text-2xl md:text-3xl font-bold leading-tight text-foreground">
-          {lesson.title}
-        </h1>
-      </div>
-
-      <div className="prose prose-sm md:prose-base max-w-none dark:prose-invert prose-headings:font-bold prose-headings:text-foreground prose-p:leading-relaxed prose-p:text-foreground/90 prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-img:rounded-lg prose-img:shadow-md prose-img:my-4 prose-ul:my-2 prose-ol:my-2 prose-li:my-1 prose-strong:text-foreground prose-code:text-primary prose-pre:bg-muted prose-pre:border prose-pre:text-sm prose-blockquote:border-l-2 prose-blockquote:border-primary prose-blockquote:pl-3 prose-blockquote:italic prose-blockquote:text-sm">
-        {parse(lesson?.content || "")}
-      </div>
-
-      <div className="flex items-center justify-between gap-3 pt-4 border-t">
-        <Button
-          variant="outline"
-          onClick={handlePreviousLesson}
-          disabled={!previousLessonSlug}
-          size="sm"
-          className="flex items-center gap-1.5"
-        >
-          <ArrowLeft className="size-4" />
-          <span>Oldingi dars</span>
-        </Button>
-
-        {currentNextLesson && (
-          <Button
-            onClick={handleNextLesson}
-            size="sm"
-            className="flex items-center gap-1.5"
-          >
-            <span>Keyingi dars</span>
-            <ArrowRight className="size-4" />
-          </Button>
-        )}
-        {!currentNextLesson && progressPercentage === 100 && (
-          <div className="flex items-center gap-1.5 text-green-600 dark:text-green-400 text-sm">
-            <Trophy className="size-4" />
-            <span className="font-semibold">Barcha darslar tugatildi!</span>
-          </div>
         )}
       </div>
     </div>

@@ -34,7 +34,6 @@ function UserInfo({ user }: Props) {
 
   const logout = useLogout();
   const router = useRouter();
-  console.log("user", user);
 
   return (
     <section

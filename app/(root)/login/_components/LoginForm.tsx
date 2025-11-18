@@ -61,8 +61,6 @@ function LoginForm() {
 
       const { user } = data?.data;
 
-      console.log("user", user);
-
       if (!isValidUser(user)) {
         throw new Error("Invalid credentials!");
       }

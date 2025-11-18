@@ -17,6 +17,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { QUERY_KEYS } from "@/constants";
 import { useParams, useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
+import { Textarea } from "@/components/ui/textarea";
 
 const TextEditor = dynamic(() => import("@/components/shared/TextEditor"), {
   ssr: false,
@@ -47,6 +48,7 @@ function TeacherAddandEditLessonForm({ isEdit = false }: Props) {
       title: "",
       content: "",
       slug: "",
+      video_url: "",
     },
   });
 
@@ -58,6 +60,7 @@ function TeacherAddandEditLessonForm({ isEdit = false }: Props) {
         title: lesson.title || "",
         content: lesson.content || "",
         slug: lesson.slug || "",
+        video_url: lesson.video_url || "",
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -70,6 +73,7 @@ function TeacherAddandEditLessonForm({ isEdit = false }: Props) {
         title: data.title,
         content: data.content,
         slug: data.slug,
+        video_url: data.video_url || null,
       };
 
       if (isEdit) {
@@ -131,6 +135,24 @@ function TeacherAddandEditLessonForm({ isEdit = false }: Props) {
                 <TextEditor
                   value={field.value}
                   onChange={field.onChange}
+                  disabled={lessonLoading || isPending}
+                />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="video_url"
+          render={({ field }) => (
+            <FormItem>
+              <Label>Video URL (ixtiyoriy)</Label>
+              <FormControl>
+                <Textarea
+                  placeholder="YouTube URL yoki embed code kiriting"
+                  {...field}
+                  value={field.value || ""}
                   disabled={lessonLoading || isPending}
                 />
               </FormControl>

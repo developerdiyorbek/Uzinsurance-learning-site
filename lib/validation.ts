@@ -92,6 +92,7 @@ export const lessonSchema = z.object({
   title: z.string().min(3, "Dars nomi majburiy!"),
   content: z.string().min(1, "Dars mazmuni majburiy!"),
   slug: z.string().min(3, "Slug majburiy!"),
+  video_url: z.string().optional().nullable(),
 });
 
 export const userSchema = z
