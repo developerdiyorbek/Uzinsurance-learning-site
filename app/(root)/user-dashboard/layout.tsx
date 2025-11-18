@@ -11,9 +11,9 @@ async function Layout({ children }: PropsWithChildren) {
         <UserSidebar />
 
         <main className="flex-1 lg:ml-72 mt-16 h-[calc(100vh-4rem)] overflow-y-auto overflow-x-hidden">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-8">
+          <section className="w-full px-4 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 py-6 lg:py-8">
             {children}
-          </div>
+          </section>
         </main>
       </div>
     </div>

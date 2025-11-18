@@ -4,6 +4,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useGetUserLessonsByCourseSlug } from "@/hooks/useGetUserLessonsByCourseSlug";
 import AdvancedErrorComponent from "@/components/shared/AdvancedErrorComponent";
+import EmptyStateUI from "@/components/shared/EmptyStateUI";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Loader2 } from "lucide-react";
@@ -57,6 +58,18 @@ export default function LearnPage() {
     return (
       <div className="space-y-6">
         <AdvancedErrorComponent onRetry={() => refetchLessons()} />
+      </div>
+    );
+  }
+
+  if (!lessonsLoading && lessons.length === 0) {
+    return (
+      <div className="space-y-6">
+        <EmptyStateUI
+          hasSearch={false}
+          title="Darslar yo'q"
+          description="Bu kursda hozircha darslar mavjud emas. Iltimos, keyinroq qayta urinib ko'ring."
+        />
       </div>
     );
   }

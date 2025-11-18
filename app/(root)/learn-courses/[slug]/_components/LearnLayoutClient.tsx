@@ -1,7 +1,10 @@
 "use client";
 
-import { PropsWithChildren, useState } from "react";
+import { PropsWithChildren, useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
+import { isValidUser } from "@/lib/utils";
+import useUser from "@/hooks/useUser";
+import FullScreenLoading from "@/components/shared/FullScreenLoading";
 import LearnHeader from "./LearnHeader";
 import LearnSidebarWrapper from "./LearnSidebarWrapper";
 import LearnSidebar from "./LearnSidebar";
@@ -9,15 +12,26 @@ import LearnSidebar from "./LearnSidebar";
 export default function LearnLayoutClient({ children }: PropsWithChildren) {
   const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const user = useUser();
 
   const params = useParams();
   const courseSlug = params?.slug as string;
   const lessonSlug = params?.["lesson-slug"] as string;
 
+  useEffect(() => {
+    if (!user || !isValidUser(user)) {
+      router.replace("/");
+    }
+  }, [user, router]);
+
   const handleLessonClick = (slug: string) => {
     router.push(`/learn-courses/${courseSlug}/${slug}`);
     setSidebarOpen(false);
   };
+
+  if (!user || !isValidUser(user)) {
+    return <FullScreenLoading />;
+  }
 
   return (
     <div className="min-h-screen bg-background">
