@@ -10,7 +10,7 @@ import { Separator } from "@/components/ui/separator";
 import { getStatusBadgeColor, QUERY_KEYS } from "@/constants";
 import { useGetTeacherCourseBySlug } from "@/hooks/useGetTeacherCourseBySlug";
 import { useQueryClient } from "@tanstack/react-query";
-import { BookOpen, Edit } from "lucide-react";
+import { BookOpen, Edit, FileQuestion } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import TeacherCourseEditForm from "./TeacherCourseEditForm";
 import TeacherCourseActionSkeleton from "./TeacherCourseActionSkeleton";
@@ -31,6 +31,10 @@ function TeacherCourseActions() {
 
   const handleNavigateToLessons = () => {
     router.push(`/teacher-dashboard/my-courses/${slug}/lessons`);
+  };
+
+  const handleNavigateToTests = () => {
+    router.push(`/teacher-dashboard/my-courses/${slug}/tests`);
   };
 
   if (isLoading) return <TeacherCourseActionSkeleton />;
@@ -74,7 +78,7 @@ function TeacherCourseActions() {
               </div>
             </CardHeader>
             <Separator />
-            <CardContent className="pt-4">
+            <CardContent className="pt-4 space-y-3">
               <Button
                 onClick={handleNavigateToLessons}
                 variant="outline"
@@ -82,6 +86,14 @@ function TeacherCourseActions() {
               >
                 <BookOpen className="size-4 mr-2" />
                 Darslar boshqaruvi
+              </Button>
+              <Button
+                onClick={handleNavigateToTests}
+                variant="outline"
+                className="w-full bg-gradient-to-r from-primary/5 to-primary/10 hover:from-primary/10 hover:to-primary/20 border-primary/20"
+              >
+                <FileQuestion className="size-4 mr-2" />
+                Testlar boshqaruvi
               </Button>
             </CardContent>
           </Card>
