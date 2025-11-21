@@ -95,6 +95,19 @@ export const lessonSchema = z.object({
   video_url: z.string().optional().nullable(),
 });
 
+export const testSchema = z.object({
+  question: z.string().min(3, "Savol majburiy!"),
+  options: z.object({
+    a: z.string().min(1, "A variant majburiy!"),
+    b: z.string().min(1, "B variant majburiy!"),
+    c: z.string().min(1, "C variant majburiy!"),
+    d: z.string().min(1, "D variant majburiy!"),
+  }),
+  correctAnswer: z.enum(["a", "b", "c", "d"], {
+    required_error: "To'g'ri javobni tanlang!",
+  }),
+});
+
 export const userSchema = z
   .object({
     avatar: z.instanceof(File).optional().nullable(),

@@ -37,6 +37,8 @@ export const QUERY_KEYS = {
   userCourseBySlug: "userCourseBySlug",
   userLessonsByCourseSlug: "userLessonsByCourseSlug",
   userLessonBySlug: "userLessonBySlug",
+  testsByCourseSlug: "testsByCourseSlug",
+  testById: "testById",
 };
 
 export const bgGradient =

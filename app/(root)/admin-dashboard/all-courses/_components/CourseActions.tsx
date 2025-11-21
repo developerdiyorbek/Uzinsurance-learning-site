@@ -12,7 +12,7 @@ import { getStatusBadgeColor, QUERY_KEYS } from "@/constants";
 import { useGetCourseBySlug } from "@/hooks/useGetCourseBySlug";
 import { useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
-import { BookOpen, Trash2 } from "lucide-react";
+import { BookOpen, Trash2, FileQuestion } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "react-toastify";
@@ -38,6 +38,10 @@ function CourseActions() {
 
   const handleNavigateToLessons = () => {
     router.push(`/admin-dashboard/all-courses/${slug}/lessons`);
+  };
+
+  const handleNavigateToTests = () => {
+    router.push(`/admin-dashboard/all-courses/${slug}/tests`);
   };
 
   const handleDelete = async () => {
@@ -114,6 +118,10 @@ function CourseActions() {
               <Button onClick={handleNavigateToLessons} variant="outline">
                 <BookOpen className="size-4 mr-2" />
                 Darslar boshqaruvi
+              </Button>
+              <Button onClick={handleNavigateToTests} variant="outline">
+                <FileQuestion className="size-4 mr-2" />
+                Testlar boshqaruvi
               </Button>
               <Button
                 onClick={() => setIsDeleteModalOpen(true)}

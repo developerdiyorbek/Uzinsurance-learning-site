@@ -58,3 +58,19 @@ export interface ILesson {
   is_completed: boolean;
   video_url?: string | null;
 }
+
+export interface ITest {
+  _id: string;
+  course: ICourse;
+  question: string;
+  options: {
+    a: string;
+    b: string;
+    c: string;
+    d: string;
+  };
+  correctAnswer: "a" | "b" | "c" | "d";
+  order: number;
+  createdAt: string;
+  updatedAt: string;
+}
