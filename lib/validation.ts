@@ -104,7 +104,7 @@ export const testSchema = z.object({
     d: z.string().min(1, "D variant majburiy!"),
   }),
   correctAnswer: z.enum(["a", "b", "c", "d"], {
-    required_error: "To'g'ri javobni tanlang!",
+    message: "To'g'ri javobni tanlang!",
   }),
 });
 
