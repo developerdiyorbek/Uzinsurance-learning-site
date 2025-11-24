@@ -3,24 +3,21 @@
 import type { ICourse } from "@/types";
 import Link from "next/link";
 import CustomImage from "@/components/shared/CustomImage";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { CheckCircle2, Trophy } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface Props {
   course: ICourse;
-  href: string;
 }
 
-function UserCourseCard({ course, href }: Props) {
-  const isCompleted = course.progress_percentage === 100;
-
+function UserCourseCard({ course }: Props) {
   return (
-    <div
+    <Link
+      href={`/user-dashboard/${course.slug}`}
       className={cn(
-        "group overflow-hidden rounded-lg border bg-white dark:bg-card transition-all duration-200 hover:shadow-lg",
-        isCompleted && "ring-2 ring-green-500/20"
+        "group block overflow-hidden rounded-lg border bg-white dark:bg-card transition-all duration-200 hover:shadow-lg cursor-pointer",
+        course.course_completed && "ring-2 ring-green-500/20"
       )}
     >
       <div className="relative h-56 w-full overflow-hidden bg-muted flex items-center justify-center">
@@ -29,7 +26,7 @@ function UserCourseCard({ course, href }: Props) {
           alt={course.title}
           className="transition-transform duration-300 group-hover:scale-105"
         />
-        {isCompleted && (
+        {course.course_completed && (
           <div className="absolute top-3 right-3">
             <Badge
               variant="secondary"
@@ -47,7 +44,7 @@ function UserCourseCard({ course, href }: Props) {
           <h3 className="line-clamp-2 text-lg font-semibold text-foreground flex-1">
             {course.title}
           </h3>
-          {isCompleted && (
+          {course.course_completed && (
             <CheckCircle2 className="size-5 text-green-600 dark:text-green-500 flex-shrink-0 mt-0.5" />
           )}
         </div>
@@ -57,12 +54,12 @@ function UserCourseCard({ course, href }: Props) {
             <span
               className={cn(
                 "font-medium",
-                isCompleted
+                course.course_completed
                   ? "text-green-600 dark:text-green-400"
                   : "text-muted-foreground"
               )}
             >
-              {isCompleted
+              {course.course_completed
                 ? "Kurs tugatildi!"
                 : `${course.progress_percentage}% tugatildi`}
             </span>
@@ -71,34 +68,16 @@ function UserCourseCard({ course, href }: Props) {
             <div
               className={cn(
                 "h-full transition-all duration-300 rounded-full",
-                isCompleted ? "bg-green-600 dark:bg-green-500" : "bg-primary"
+                course.course_completed
+                  ? "bg-green-600 dark:bg-green-500"
+                  : "bg-primary"
               )}
               style={{ width: `${course.progress_percentage}%` }}
             />
           </div>
         </div>
-
-        <Link href={href}>
-          <Button
-            className={cn(
-              "w-full rounded-md",
-              isCompleted &&
-                "bg-green-600 hover:bg-green-700 dark:bg-green-500 dark:hover:bg-green-600"
-            )}
-            variant={isCompleted ? "default" : "default"}
-          >
-            {isCompleted ? (
-              <>
-                <CheckCircle2 className="size-4 mr-2" />
-                Qayta ko&apos;rish
-              </>
-            ) : (
-              "Davom etish"
-            )}
-          </Button>
-        </Link>
       </div>
-    </div>
+    </Link>
   );
 }
 

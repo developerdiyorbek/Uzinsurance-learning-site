@@ -51,11 +51,7 @@ function Page() {
         {!isLoading &&
           courses?.length > 0 &&
           courses?.map((course: ICourse) => (
-            <UserCourseCard
-              key={course._id}
-              course={course}
-              href={`/learn-courses/${course.slug}`}
-            />
+            <UserCourseCard key={course._id} course={course} />
           ))}
       </div>
 

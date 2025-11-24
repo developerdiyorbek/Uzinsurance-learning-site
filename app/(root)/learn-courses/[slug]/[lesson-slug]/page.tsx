@@ -57,7 +57,7 @@ export default function LearnLessonPage() {
     start: startTimer,
     formatTimer,
   } = useTimer({
-    initialSeconds: 60,
+    initialSeconds: 10,
     autoStart: false,
   });
 

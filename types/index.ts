@@ -44,6 +44,7 @@ export interface ICourse {
   completed_lessons: number;
   total_lessons: number;
   progress_percentage: number;
+  course_completed: boolean;
 }
 
 export interface ILesson {
@@ -73,4 +74,31 @@ export interface ITest {
   order: number;
   createdAt: string;
   updatedAt: string;
+}
+
+export type AnswerOption = "a" | "b" | "c" | "d";
+
+export interface TestAnswer {
+  test_id: string;
+  answer: AnswerOption;
+}
+
+export interface TestResult {
+  test_id: string;
+  question: string;
+  user_answer: AnswerOption | null;
+  correct_answer: AnswerOption;
+  is_correct: boolean;
+}
+
+export interface IUserTest {
+  _id: string;
+  question: string;
+  options: {
+    a: string;
+    b: string;
+    c: string;
+    d: string;
+  };
+  order?: number;
 }

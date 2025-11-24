@@ -19,3 +19,21 @@ export function useGetUserJoinedCourses() {
     refetch,
   };
 }
+
+export function useGetUserJoinedCourse(slug?: string) {
+  const { data, isLoading, error, refetch } = useQuery({
+    queryKey: [QUERY_KEYS.userJoinedCourseBySlug, slug],
+    queryFn: async () => {
+      const { data } = await customAxios.get(`user/user-course/${slug}`);
+      return data;
+    },
+    enabled: !!slug,
+  });
+
+  return {
+    course: data?.course,
+    isLoading,
+    error,
+    refetch,
+  };
+}
