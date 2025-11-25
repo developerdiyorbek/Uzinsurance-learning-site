@@ -22,25 +22,32 @@ export default function TestHeader({
   courseSlug,
 }: TestHeaderProps) {
   return (
-    <div className="flex items-center justify-between gap-3 pb-2 border-b">
-      <div className="flex items-center gap-3 min-w-0 flex-1">
-        <Link href={`/user-dashboard/courses/${courseSlug}`}>
-          <Button variant="ghost" size="icon" className="h-8 w-8 shrink-0">
-            <ArrowLeft className="size-4" />
+    <div className="flex items-center justify-between gap-2 md:gap-4 pb-2 md:pb-3 border-b">
+      <div className="flex items-center gap-2 md:gap-4 min-w-0 flex-1">
+        <Link href={`/user-dashboard/${courseSlug}`}>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-8 w-8 md:h-10 md:w-10 shrink-0"
+          >
+            <ArrowLeft className="size-4 md:size-5" />
           </Button>
         </Link>
         <div className="min-w-0">
-          <h1 className="text-lg font-semibold truncate">
-            {courseTitle || "Test"}
+          <h1 className="text-lg md:text-xl font-semibold truncate">
+            {courseTitle ? `${courseTitle} kursiga oid testlar` : "Testlar"}
           </h1>
-          <p className="text-xs text-muted-foreground">
-            {totalQuestions} savol
+          <p className="text-xs md:text-sm text-muted-foreground">
+            {totalQuestions} ta savol mavjud
           </p>
         </div>
       </div>
-      <div className="flex items-center gap-2 shrink-0">
+      <div className="flex items-center gap-2 md:gap-3 shrink-0">
         {!isSubmitted && (
-          <Badge variant="secondary" className="text-xs px-2 py-0.5 h-6">
+          <Badge
+            variant="secondary"
+            className="text-xs md:text-sm px-2 md:px-3 py-0.5 md:py-1 h-6 md:h-8"
+          >
             {answeredCount}/{totalQuestions}
           </Badge>
         )}
@@ -48,7 +55,7 @@ export default function TestHeader({
           <Badge
             variant="secondary"
             className={cn(
-              "text-xs px-2 py-0.5 h-6 gap-1",
+              "text-xs md:text-sm px-2 md:px-3 py-0.5 md:py-1 h-6 md:h-8 gap-1 md:gap-1.5",
               score >= 70
                 ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20"
                 : score >= 50
@@ -56,7 +63,7 @@ export default function TestHeader({
                 : "bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/20"
             )}
           >
-            <Trophy className="size-3" />
+            <Trophy className="size-3 md:size-4" />
             {score}%
           </Badge>
         )}

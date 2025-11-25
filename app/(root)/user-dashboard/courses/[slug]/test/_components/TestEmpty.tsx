@@ -29,4 +29,3 @@ export default function TestEmpty({ courseSlug }: TestEmptyProps) {
     </div>
   );
 }
-

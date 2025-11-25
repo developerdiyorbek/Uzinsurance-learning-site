@@ -1,108 +1,230 @@
-import { Badge } from "@/components/ui/badge";
-import { CheckCircle2, XCircle, AlertCircle } from "lucide-react";
+import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import {
+  Download,
+  RotateCcw,
+  Sparkles,
+  AlertCircle,
+  Target,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
-import { TestResult, IUserTest } from "@/types";
+import { TestResult } from "@/types";
 
 interface TestResultsProps {
   results: TestResult[];
-  tests: IUserTest[];
+  courseTitle?: string;
+  score: number;
+  onReset: () => void;
+  onDownloadCertificate?: () => void;
+  isDownloading?: boolean;
 }
 
-export default function TestResults({ results, tests }: TestResultsProps) {
-  return (
-    <div className="space-y-2.5">
-      <h3 className="text-sm font-semibold text-foreground pb-2 border-b">
-        Batafsil natijalar
-      </h3>
-      <div className="space-y-2">
-        {results.map((result, index) => {
-          const test = tests.find((t) => t._id === result.test_id);
-          const isCorrect = result.is_correct;
+export default function TestResults({
+  results,
+  courseTitle,
+  score,
+  onReset,
+  onDownloadCertificate,
+  isDownloading = false,
+}: TestResultsProps) {
+  const isSuccess = score >= 80;
+  const correctCount = results.filter((r) => r.is_correct).length;
+  const totalQuestions = results.length;
+  const neededScore = 80;
 
-          return (
-            <div
-              key={result.test_id}
-              className={cn(
-                "rounded-lg border-2 p-3 space-y-2.5 transition-all duration-200 hover:shadow-sm",
-                isCorrect
-                  ? "border-emerald-500/30 bg-gradient-to-br from-emerald-500/10 to-emerald-500/5"
-                  : "border-rose-500/30 bg-gradient-to-br from-rose-500/10 to-rose-500/5"
-              )}
-            >
-              <div className="flex items-start gap-2.5">
+  return (
+    <div className="space-y-4 md:space-y-6">
+      {isSuccess ? (
+        <>
+          <div className="relative w-full flex flex-col items-center justify-center py-4 md:py-6">
+            <div className="relative w-40 h-40 md:w-56 md:h-56 animate-bounce-slow">
+              <Image
+                src="/success.png"
+                alt="Muvaffaqiyat"
+                fill
+                className="object-contain"
+                priority
+              />
+            </div>
+
+            <div className="absolute inset-0 pointer-events-none overflow-hidden">
+              {[...Array(8)].map((_, i) => (
                 <div
+                  key={i}
                   className={cn(
-                    "flex-shrink-0 w-6 h-6 rounded-md flex items-center justify-center text-[10px] font-bold",
-                    isCorrect
-                      ? "bg-emerald-500/20 text-emerald-700 dark:text-emerald-400"
-                      : "bg-rose-500/20 text-rose-700 dark:text-rose-400"
+                    "absolute animate-pulse",
+                    i % 3 === 0 && "text-emerald-400",
+                    i % 3 === 1 && "text-amber-400",
+                    i % 3 === 2 && "text-rose-400"
                   )}
+                  style={{
+                    left: `${Math.random() * 100}%`,
+                    top: `${Math.random() * 100}%`,
+                    animationDelay: `${Math.random() * 2}s`,
+                    animationDuration: `${2 + Math.random() * 2}s`,
+                  }}
                 >
-                  {index + 1}
+                  <Sparkles className="size-3 md:size-4 opacity-60" />
                 </div>
-                <p className="flex-1 text-xs font-medium text-foreground leading-snug">
-                  {result.question}
+              ))}
+            </div>
+          </div>
+
+          <div className="rounded-lg border bg-card p-4 md:p-6">
+            <div className="text-center space-y-3 md:space-y-4">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20">
+                <Sparkles className="size-3.5 md:size-4 text-emerald-600 dark:text-emerald-400 animate-pulse" />
+                <span className="text-xs md:text-sm font-medium text-emerald-600 dark:text-emerald-400">
+                  Tabriklaymiz! Testdan muvaffaqiyatli o&apos;tdingiz!
+                </span>
+              </div>
+
+              <div className="space-y-2 md:space-y-3">
+                <p className="text-sm md:text-base text-foreground leading-relaxed">
+                  Siz{" "}
+                  <span className="text-emerald-600 dark:text-emerald-400 font-medium">
+                    {courseTitle || "kurs"}
+                  </span>{" "}
+                  testlarida{" "}
+                  <span className="text-primary font-bold">
+                    {totalQuestions}
+                  </span>{" "}
+                  savoldan{" "}
+                  <span className="text-emerald-600 dark:text-emerald-400 font-bold">
+                    {correctCount}
+                  </span>{" "}
+                  tasiga to&apos;g&apos;ri javob berdingiz.
                 </p>
-                <div className="flex-shrink-0">
-                  {isCorrect ? (
-                    <div className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20">
-                      <CheckCircle2 className="size-3.5 text-emerald-600 dark:text-emerald-400" />
-                      <span className="text-[10px] font-semibold text-emerald-600 dark:text-emerald-400">
-                        To&apos;g&apos;ri
-                      </span>
+
+                <div className="flex items-center justify-center gap-2 md:gap-3">
+                  <div className="text-3xl md:text-4xl font-bold text-emerald-600 dark:text-emerald-400">
+                    {score}%
+                  </div>
+                  <div className="text-left">
+                    <div className="text-xs md:text-sm text-muted-foreground">
+                      Natija
                     </div>
-                  ) : (
-                    <div className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-rose-500/10 border border-rose-500/20">
-                      <XCircle className="size-3.5 text-rose-600 dark:text-rose-400" />
-                      <span className="text-[10px] font-semibold text-rose-600 dark:text-rose-400">
-                        Noto&apos;g&apos;ri
-                      </span>
+                    <div className="text-[10px] md:text-xs text-muted-foreground">
+                      {correctCount}/{totalQuestions} to&apos;g&apos;ri
                     </div>
-                  )}
+                  </div>
+                </div>
+
+                <div className="pt-2 border-t">
+                  <p className="text-xs md:text-sm text-foreground">
+                    Kursni tugatganligi haqida{" "}
+                    <span className="text-emerald-600 dark:text-emerald-400 font-medium">
+                      sertifikat
+                    </span>{" "}
+                    ni yuklab olishiz mumkin.
+                  </p>
                 </div>
               </div>
-              <div className="space-y-2 pl-9">
-                <div className="flex items-center gap-2 flex-wrap">
-                  <span className="text-[10px] font-semibold text-muted-foreground flex items-center gap-1">
-                    <AlertCircle className="size-3" />
-                    Sizning javobingiz:
-                  </span>
-                  <Badge
-                    variant="outline"
-                    className={cn(
-                      "text-[10px] px-2 py-0.5 h-5 font-medium",
-                      result.user_answer === result.correct_answer
-                        ? "border-emerald-500 text-emerald-700 dark:text-emerald-400 bg-emerald-500/10 shadow-sm"
-                        : "border-rose-500 text-rose-700 dark:text-rose-400 bg-rose-500/10 shadow-sm"
-                    )}
+
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-2 md:gap-3 pt-3">
+                {onDownloadCertificate && (
+                  <Button
+                    onClick={onDownloadCertificate}
+                    size="default"
+                    className="w-full sm:w-auto h-9 md:h-10 px-4 md:px-6 text-sm md:text-base bg-emerald-600 hover:bg-emerald-700 text-white"
+                    disabled={isDownloading}
                   >
-                    {result.user_answer
-                      ? `${result.user_answer.toUpperCase()}. ${
-                          test?.options[result.user_answer]
-                        }`
-                      : "Javob berilmagan"}
-                  </Badge>
-                </div>
-                {!isCorrect && (
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <span className="text-[10px] font-semibold text-muted-foreground flex items-center gap-1">
-                      <CheckCircle2 className="size-3 text-emerald-600" />
-                      To&apos;g&lsquo;ri javob:
-                    </span>
-                    <Badge
-                      variant="outline"
-                      className="text-[10px] px-2 py-0.5 h-5 border-emerald-500 text-emerald-700 dark:text-emerald-400 bg-emerald-500/10 font-medium shadow-sm"
-                    >
-                      {result.correct_answer.toUpperCase()}.{" "}
-                      {test?.options[result.correct_answer]}
-                    </Badge>
-                  </div>
+                    <Download className="size-4 md:size-5 mr-2" />
+                    {isDownloading
+                      ? "Yuklanmoqda..."
+                      : "Sertifikatni yuklab olish"}
+                  </Button>
                 )}
+                <Button
+                  onClick={onReset}
+                  variant="outline"
+                  size="default"
+                  className="w-full sm:w-auto h-9 md:h-10 px-4 md:px-6 text-sm md:text-base"
+                >
+                  <RotateCcw className="size-4 md:size-5 mr-2" />
+                  Qayta urinish
+                </Button>
               </div>
             </div>
-          );
-        })}
-      </div>
+          </div>
+        </>
+      ) : (
+        <>
+          <div className="relative w-full flex flex-col items-center justify-center py-4 md:py-6">
+            <div className="relative w-40 h-40 md:w-56 md:h-56 flex items-center justify-center">
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="relative w-32 h-32 md:w-48 md:h-48 rounded-full bg-amber-100/50 dark:bg-amber-900/20 flex items-center justify-center border-2 border-amber-300/50 dark:border-amber-700/30">
+                  <Target className="size-16 md:size-24 text-amber-500 dark:text-amber-400 opacity-50" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="rounded-lg border bg-card p-4 md:p-6">
+            <div className="text-center space-y-3 md:space-y-4">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/20">
+                <AlertCircle className="size-3.5 md:size-4 text-amber-600 dark:text-amber-400" />
+                <span className="text-xs md:text-sm font-medium text-amber-600 dark:text-amber-400">
+                  Testdan o&apos;ta olmadingiz
+                </span>
+              </div>
+
+              <div className="space-y-2 md:space-y-3">
+                <p className="text-sm md:text-base text-foreground leading-relaxed">
+                  Siz{" "}
+                  <span className="text-amber-600 dark:text-amber-400 font-medium">
+                    {courseTitle || "kurs"}
+                  </span>{" "}
+                  testlarida{" "}
+                  <span className="text-primary font-bold">
+                    {totalQuestions}
+                  </span>{" "}
+                  savoldan{" "}
+                  <span className="text-amber-600 dark:text-amber-400 font-bold">
+                    {correctCount}
+                  </span>{" "}
+                  tasiga to&apos;g&apos;ri javob berdingiz.
+                </p>
+
+                <div className="flex items-center justify-center gap-2 md:gap-3">
+                  <div className="text-3xl md:text-4xl font-bold text-amber-600 dark:text-amber-400">
+                    {score}%
+                  </div>
+                  <div className="text-left">
+                    <div className="text-xs md:text-sm text-muted-foreground">
+                      Natija
+                    </div>
+                    <div className="text-[10px] md:text-xs text-muted-foreground">
+                      {correctCount}/{totalQuestions} to&apos;g&apos;ri
+                    </div>
+                  </div>
+                </div>
+
+                <div className="pt-2 border-t">
+                  <p className="text-xs md:text-sm text-foreground">
+                    Sertifikat olish uchun kamida{" "}
+                    <span className="text-amber-600 dark:text-amber-400 font-medium">
+                      {neededScore}%
+                    </span>{" "}
+                    bo&apos;lishi kerak.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-2 md:gap-3 pt-3">
+                <Button
+                  onClick={onReset}
+                  size="default"
+                  className="w-full sm:w-auto h-9 md:h-10 px-4 md:px-6 text-sm md:text-base bg-amber-600 hover:bg-amber-700 text-white"
+                >
+                  <RotateCcw className="size-4 md:size-5 mr-2" />
+                  Qayta urinish
+                </Button>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 }

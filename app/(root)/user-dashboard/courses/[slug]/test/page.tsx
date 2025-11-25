@@ -14,7 +14,6 @@ import TestHeader from "./_components/TestHeader";
 import TestProgress from "./_components/TestProgress";
 import TestQuestion from "./_components/TestQuestion";
 import TestNavigation from "./_components/TestNavigation";
-import TestScoreCard from "./_components/TestScoreCard";
 import TestResults from "./_components/TestResults";
 import TestLocked from "./_components/TestLocked";
 import TestEmpty from "./_components/TestEmpty";
@@ -185,7 +184,7 @@ export default function TestPage() {
   const allAnswered = answeredCount === tests.length;
 
   return (
-    <div className="space-y-4 max-w-3xl mx-auto">
+    <div className="space-y-4 md:space-y-6 max-w-full md:max-w-5xl mx-auto px-3 md:px-4">
       <TestHeader
         courseTitle={course?.title}
         totalQuestions={tests.length}
@@ -196,7 +195,7 @@ export default function TestPage() {
       />
 
       {!isSubmitted && tests.length > 0 && (
-        <div className="space-y-4">
+        <div className="space-y-4 md:space-y-6">
           <TestProgress
             currentIndex={currentQuestionIndex}
             totalQuestions={tests.length}
@@ -206,7 +205,7 @@ export default function TestPage() {
             onGoToQuestion={handleGoToQuestion}
           />
 
-          <div className="rounded-lg border p-4 bg-card">
+          <div className="rounded-lg border p-4 md:p-6 bg-card">
             <TestQuestion
               test={tests[currentQuestionIndex]}
               questionNumber={currentQuestionIndex + 1}
@@ -231,20 +230,16 @@ export default function TestPage() {
       )}
 
       {isSubmitted && results && score !== null && (
-        <div className="space-y-4">
-          <TestScoreCard
-            score={score}
-            correctCount={results.filter((r) => r.is_correct).length}
-            totalQuestions={results.length}
-            onReset={handleReset}
-            onDownloadCertificate={
-              score >= 80 ? handleDownloadCertificate : undefined
-            }
-            isDownloading={isDownloadingCertificate}
-          />
-
-          <TestResults results={results} tests={tests} />
-        </div>
+        <TestResults
+          results={results}
+          courseTitle={course?.title}
+          score={score}
+          onReset={handleReset}
+          onDownloadCertificate={
+            score >= 80 ? handleDownloadCertificate : undefined
+          }
+          isDownloading={isDownloadingCertificate}
+        />
       )}
 
       <AlertModal
