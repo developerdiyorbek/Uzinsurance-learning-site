@@ -1,9 +1,9 @@
 "use client";
 
-import { ICertificate } from "@/hooks/useGetUserCertificates";
 import CustomImage from "@/components/shared/CustomImage";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { ICertificate } from "@/types";
 import { Award, ExternalLink, Trophy } from "lucide-react";
 
 interface Props {
@@ -76,4 +76,3 @@ function CertificateCard({ certificate }: Props) {
 }
 
 export default CertificateCard;
-
