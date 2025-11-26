@@ -102,3 +102,17 @@ export interface IUserTest {
   };
   order?: number;
 }
+
+export interface ICertificate {
+  course: {
+    _id: string;
+    title: string;
+    slug: string;
+    image: string;
+    description: string;
+  };
+  certificate_link: string;
+  test_score: number;
+  test_completed: boolean;
+  course_completed: boolean;
+}

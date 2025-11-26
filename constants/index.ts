@@ -43,6 +43,7 @@ export const QUERY_KEYS = {
   testById: "testById",
   teacherTestsByCourseSlug: "teacherTestsByCourseSlug",
   teacherTestById: "teacherTestById",
+  userCertificates: "userCertificates",
 };
 
 export const bgGradient =
