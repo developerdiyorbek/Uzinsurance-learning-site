@@ -8,6 +8,8 @@ import NoUserCard from "./NoUserCard";
 function CheckUserComponent() {
   const user = useUser();
 
+  // console.log("CheckUserComponent - user:", user);
+
   if (user && isValidUser(user)) {
     return <UserInfo user={user} />;
   }
