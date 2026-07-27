@@ -7,7 +7,15 @@ import { useGetUserLessonBySlug } from "@/hooks/useGetUserLessonBySlug";
 import { useCompleteLesson } from "@/hooks/useCompleteLesson";
 import { useTimer } from "@/hooks/useTimer";
 import { Button } from "@/components/ui/button";
-import { CheckCircle2, ArrowLeft, Loader, Trophy, Clock } from "lucide-react";
+import {
+  CheckCircle2,
+  ArrowLeft,
+  Loader,
+  Trophy,
+  Clock,
+  FileText,
+  Download,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import parse from "html-react-parser";
@@ -178,6 +186,29 @@ export default function LearnLessonPage() {
         </div>
       )}
 
+      {lesson.file_url && (
+        <a
+          href={lesson.file_url}
+          target="_blank"
+          rel="noopener noreferrer"
+          download
+          className="flex items-center justify-between gap-3 p-4 rounded-lg border bg-muted/40 hover:bg-muted/70 transition-colors"
+        >
+          <div className="flex items-center gap-3">
+            <FileText className="size-5 text-primary shrink-0" />
+            <div>
+              <p className="text-sm font-semibold text-foreground">
+                Dars fayli
+              </p>
+              <p className="text-xs text-muted-foreground">
+                Materialni yuklab olish uchun bosing
+              </p>
+            </div>
+          </div>
+          <Download className="size-4 text-muted-foreground shrink-0" />
+        </a>
+      )}
+
       <div className="prose prose-sm md:prose-base max-w-none dark:prose-invert prose-headings:font-bold prose-headings:text-foreground prose-p:leading-relaxed prose-p:text-foreground/90 prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-img:rounded-lg prose-img:shadow-md prose-img:my-4 prose-ul:my-2 prose-ol:my-2 prose-li:my-1 prose-strong:text-foreground prose-code:text-primary prose-pre:bg-muted prose-pre:border prose-pre:text-sm prose-blockquote:border-l-2 prose-blockquote:border-primary prose-blockquote:pl-3 prose-blockquote:italic prose-blockquote:text-sm">
         {parse(lesson?.content || "")}
       </div>
@@ -215,8 +246,8 @@ export default function LearnLessonPage() {
               isCompleted
                 ? "bg-green-600 hover:bg-green-700 text-white"
                 : timerSeconds > 0
-                ? "bg-primary/50 hover:bg-primary/50 cursor-not-allowed"
-                : "bg-primary hover:bg-primary/90"
+                  ? "bg-primary/50 hover:bg-primary/50 cursor-not-allowed"
+                  : "bg-primary hover:bg-primary/90",
             )}
           >
             {completeLessonMutation.isPending ? (

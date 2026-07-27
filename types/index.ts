@@ -48,6 +48,7 @@ export interface ICourse {
 }
 
 export interface ILesson {
+  file_url?: string | null;
   title: string;
   content: string;
   order: number;

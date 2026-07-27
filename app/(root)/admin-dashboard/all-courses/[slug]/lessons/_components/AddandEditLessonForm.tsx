@@ -9,7 +9,7 @@ import { Label } from "@/components/ui/label";
 import { lessonSchema } from "@/lib/validation";
 import customAxios from "@/configs/customAxios";
 import { toast } from "react-toastify";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Loader } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useGetLessonBySlug } from "@/hooks/useGetLessonBySlug";
@@ -39,8 +39,10 @@ function AddandEditLessonForm({ isEdit = false }: Props) {
 
   const { lesson, lessonLoading } = useGetLessonBySlug(
     lesson_slug,
-    course_slug
+    course_slug,
   );
+
+  const [lessonFile, setLessonFile] = useState<File | null>(null);
 
   const form = useForm<LessonFormValues>({
     resolver: zodResolver(lessonSchema),
@@ -49,6 +51,7 @@ function AddandEditLessonForm({ isEdit = false }: Props) {
       content: "",
       slug: "",
       video_url: "",
+      file_url: null,
     },
   });
 
@@ -69,28 +72,32 @@ function AddandEditLessonForm({ isEdit = false }: Props) {
   const { mutate, isPending } = useMutation({
     mutationKey: [QUERY_KEYS.lessonsByCourseSlug, course_slug],
     mutationFn: async (data: LessonFormValues) => {
-      const values = {
-        title: data.title,
-        content: data.content,
-        slug: data.slug,
-        video_url: data.video_url || null,
-        new_slug: "",
-      };
+      const formData = new FormData();
+      formData.append("title", data.title);
+      formData.append("content", data.content);
+      formData.append("slug", data.slug);
+      formData.append("video_url", data.video_url || "");
+
+      if (lessonFile) {
+        formData.append("file", lessonFile);
+      }
 
       if (isEdit) {
         if (data.slug !== lesson?.slug) {
-          values.new_slug = data.slug;
+          formData.append("new_slug", data.slug);
         }
 
         const response = await customAxios.put(
           `admin/lessons/${lesson_slug}`,
-          values
+          formData,
+          { headers: { "Content-Type": "multipart/form-data" } },
         );
         return response.data;
       } else {
         const response = await customAxios.post(
           `admin/lessons/${course_slug}`,
-          values
+          formData,
+          { headers: { "Content-Type": "multipart/form-data" } },
         );
         return response.data;
       }
@@ -100,7 +107,7 @@ function AddandEditLessonForm({ isEdit = false }: Props) {
         queryKey: [QUERY_KEYS.lessonsByCourseSlug, course_slug],
       });
       toast.success(
-        `Dars muvaffaqiyatli ${isEdit ? "yangilandi" : "qo'shildi"}`
+        `Dars muvaffaqiyatli ${isEdit ? "yangilandi" : "qo'shildi"}`,
       );
       router.push(`/admin-dashboard/all-courses/${course_slug}/lessons`);
     },
@@ -164,6 +171,34 @@ function AddandEditLessonForm({ isEdit = false }: Props) {
             </FormItem>
           )}
         />
+
+        <FormItem>
+          <Label>Dars fayli (PDF, DOC, DOCX, PPT, PPTX)</Label>
+          <FormControl>
+            <Input
+              type="file"
+              accept=".pdf,.doc,.docx,.ppt,.pptx"
+              onChange={(e) => {
+                const file = e.target.files?.[0] || null;
+                setLessonFile(file);
+              }}
+              disabled={lessonLoading || isPending}
+            />
+          </FormControl>
+          {isEdit && lesson?.file_url && !lessonFile && (
+            <p className="text-sm text-muted-foreground mt-1">
+              Joriy fayl:{" "}
+              <a
+                href={lesson?.file_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline"
+              >
+                yuklab olish
+              </a>
+            </p>
+          )}
+        </FormItem>
 
         <FormField
           control={form.control}

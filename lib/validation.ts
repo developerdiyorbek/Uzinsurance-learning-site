@@ -39,11 +39,11 @@ export const courseSchema = z.object({
     .instanceof(File)
     .refine(
       (file) => file.type.startsWith("image/"),
-      "Faqat rasm fayl bo'lishi kerak!"
+      "Faqat rasm fayl bo'lishi kerak!",
     )
     .refine(
       (file) => file.size <= 5 * 1024 * 1024,
-      "Rasm hajmi 5MB dan oshmasin!"
+      "Rasm hajmi 5MB dan oshmasin!",
     ),
 });
 
@@ -59,11 +59,11 @@ export const courseEditSchema = z.object({
     .refine(
       (file) =>
         !file || (file instanceof File && file.type.startsWith("image/")),
-      "Faqat rasm fayl bo'lishi kerak!"
+      "Faqat rasm fayl bo'lishi kerak!",
     )
     .refine(
       (file) => !file || (file instanceof File && file.size <= 5 * 1024 * 1024),
-      "Rasm hajmi 5MB dan oshmasin!"
+      "Rasm hajmi 5MB dan oshmasin!",
     )
     .optional()
     .nullable(),
@@ -78,11 +78,11 @@ export const teacherCourseEditSchema = z.object({
     .refine(
       (file) =>
         !file || (file instanceof File && file.type.startsWith("image/")),
-      "Faqat rasm fayl bo'lishi kerak!"
+      "Faqat rasm fayl bo'lishi kerak!",
     )
     .refine(
       (file) => !file || (file instanceof File && file.size <= 5 * 1024 * 1024),
-      "Rasm hajmi 5MB dan oshmasin!"
+      "Rasm hajmi 5MB dan oshmasin!",
     )
     .optional()
     .nullable(),
@@ -93,6 +93,7 @@ export const lessonSchema = z.object({
   content: z.string().min(1, "Dars mazmuni majburiy!"),
   slug: z.string().min(3, "Slug majburiy!"),
   video_url: z.string().optional().nullable(),
+  file_url: z.instanceof(File).optional().nullable(),
 });
 
 export const testSchema = z.object({
