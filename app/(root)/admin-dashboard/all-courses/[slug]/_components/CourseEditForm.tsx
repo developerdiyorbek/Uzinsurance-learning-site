@@ -73,7 +73,7 @@ export default function CourseEditForm({ course, onSuccess }: Props) {
 
       formData.append("title", data.title);
       formData.append("description", data.description);
-      formData.append("slug", data.slug);
+      formData.append("new_slug", data.slug);
       formData.append("status", data.status);
 
       if (data.image) {
