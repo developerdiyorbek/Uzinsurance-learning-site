@@ -86,7 +86,14 @@ export default function CourseEditForm({ course, onSuccess }: Props) {
       if (onSuccess) {
         onSuccess();
       }
-      router.refresh();
+
+      const slug_changed = course?.slug && data.slug !== course.slug;
+
+      if (slug_changed) {
+        router.push("/admin-dashboard/all-courses");
+      } else {
+        router.refresh();
+      }
     } catch (error) {
       const err = error as AxiosError<{ message?: string }>;
       const errorMessage = err.response?.data?.message || "Kutilmagan xatolik";

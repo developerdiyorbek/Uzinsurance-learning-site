@@ -68,7 +68,7 @@ export default function TeacherCourseEditForm({ course, onSuccess }: Props) {
 
       formData.append("title", data.title);
       formData.append("description", data.description);
-      formData.append("slug", data.slug);
+      formData.append("new_slug", data.slug);
 
       if (data.image) {
         formData.append("image", data.image);
@@ -80,6 +80,15 @@ export default function TeacherCourseEditForm({ course, onSuccess }: Props) {
       if (onSuccess) {
         onSuccess();
       }
+
+      const slug_changed = course?.slug && data.slug !== course.slug;
+
+      if (slug_changed) {
+        router.push("/teacher-dashboard/my-courses");
+      } else {
+        router.refresh();
+      }
+
       router.refresh();
     } catch (error) {
       const err = error as AxiosError<{ message?: string }>;
@@ -95,7 +104,7 @@ export default function TeacherCourseEditForm({ course, onSuccess }: Props) {
       setSubmittingForApproval(true);
 
       await customAxios.put(
-        `teacher/courses/${course?.slug}/submit-for-approval`
+        `teacher/courses/${course?.slug}/submit-for-approval`,
       );
 
       toast.success("Kurs tasdiqlashga yuborildi");
